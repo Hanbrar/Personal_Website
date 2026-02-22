@@ -154,27 +154,10 @@ function Home({ darkMode, setDarkMode }) {
           </div>
         </header>
 
-        {/* ──────────────── PROFILE IMAGE + WHO I AM ──────────────── */}
+        {/* ──────────────── WHO I AM + PROFILE IMAGE ──────────────── */}
         <section className="grid gap-6 md:grid-cols-2 md:gap-8">
 
-          {/* Profile image */}
-          <div className="flex flex-col items-center justify-center gap-4">
-            <div className="profile-frame w-full max-w-sm">
-              <img
-                src="/image.png"
-                alt={`Portrait of ${profileContent.name}`}
-                className="h-[26rem] w-full object-cover md:h-[30rem]"
-              />
-            </div>
-            <span
-              className="cyber-badge"
-              style={{ color: "#FFD84A", borderColor: "#FFD84A", background: "rgb(255 216 74 / 0.1)" }}
-            >
-              Product Design + Build
-            </span>
-          </div>
-
-          {/* Who I am */}
+          {/* Who I am — left */}
           <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8 flex flex-col justify-center">
             <p className="section-kicker mb-3">About me</p>
             <h2 className="section-title">Who I am</h2>
@@ -187,6 +170,23 @@ function Home({ darkMode, setDarkMode }) {
               ))}
             </div>
           </article>
+
+          {/* Profile image — right */}
+          <div className="flex flex-col items-center justify-center gap-4">
+            <div className="profile-frame w-full max-w-sm">
+              <img
+                src="/image.png"
+                alt={`Portrait of ${profileContent.name}`}
+                className="h-[26rem] w-full object-cover md:h-[30rem]"
+              />
+            </div>
+            <span
+              className="cyber-badge"
+              style={{ color: "#FFD84A", borderColor: "#FFD84A", background: "rgb(var(--ink) / 0.82)" }}
+            >
+              Product Design + Build
+            </span>
+          </div>
 
         </section>
 
