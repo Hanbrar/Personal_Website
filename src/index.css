@@ -1,0 +1,159 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 245 247 245;
+  --surface: 255 255 255;
+  --surface-muted: 231 239 236;
+  --text: 9 18 25;
+  --text-soft: 70 90 96;
+  --accent: 12 139 127;
+  --accent-2: 249 115 22;
+  --ring: 13 148 136;
+}
+
+.dark {
+  --bg: 7 13 19;
+  --surface: 16 25 33;
+  --surface-muted: 23 36 45;
+  --text: 232 244 245;
+  --text-soft: 155 177 183;
+  --accent: 45 212 191;
+  --accent-2: 251 146 60;
+  --ring: 94 234 212;
+}
+
+* {
+  @apply border-[rgb(var(--ring)/0.14)];
+}
+
+body {
+  @apply min-h-screen font-body text-[rgb(var(--text))] antialiased;
+  background-color: rgb(var(--bg));
+  background-image:
+    radial-gradient(circle at 16% 10%, rgb(var(--accent) / 0.13), transparent 40%),
+    radial-gradient(circle at 83% 20%, rgb(var(--accent-2) / 0.13), transparent 36%),
+    linear-gradient(145deg, rgb(var(--bg)), rgb(var(--surface-muted) / 0.84));
+}
+
+.glass-panel {
+  @apply border border-white/60 shadow-soft backdrop-blur-xl dark:border-white/10;
+  background: linear-gradient(
+    160deg,
+    rgb(var(--surface) / 0.88),
+    rgb(var(--surface-muted) / 0.7)
+  );
+}
+
+.section-title {
+  @apply font-display text-2xl font-semibold md:text-3xl;
+}
+
+.section-kicker {
+  @apply font-mono text-xs uppercase tracking-[0.24em] text-[rgb(var(--text-soft))];
+}
+
+.soft-stroke {
+  position: relative;
+}
+
+.soft-stroke::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgb(var(--accent) / 0.52),
+    rgb(var(--accent-2) / 0.42),
+    transparent 70%
+  );
+  filter: blur(12px);
+  opacity: 0.4;
+}
+
+.neo-grid {
+  background-image:
+    linear-gradient(rgb(var(--ring) / 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--ring) / 0.2) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.7), transparent 80%);
+}
+
+.neon-edge {
+  position: relative;
+}
+
+.neon-edge::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(110deg, rgb(var(--accent) / 0.3), rgb(var(--accent-2) / 0.24), transparent 72%);
+  filter: blur(18px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.glow-chip {
+  box-shadow: 0 8px 24px -18px rgb(var(--accent) / 0.95);
+}
+
+.orbital-ring {
+  border: 1px solid rgb(var(--ring) / 0.35);
+  animation: orbit-spin 16s linear infinite;
+}
+
+.feed-shell {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.32);
+}
+
+.feed-row {
+  transition: background-color 180ms ease;
+}
+
+.feed-row:hover {
+  background-color: rgb(var(--surface-muted) / 0.45);
+}
+
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--accent) / 0.08) 36%,
+    transparent 72%
+  );
+  animation: scan-float 8s linear infinite;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.03);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes scan-float {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-ring,
+  .scanline {
+    animation: none;
+  }
+}
