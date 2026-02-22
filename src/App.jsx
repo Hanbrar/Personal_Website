@@ -175,7 +175,7 @@ function Home({ darkMode, setDarkMode }) {
           <div className="flex flex-col items-center justify-center gap-4">
             <div className="profile-frame w-full max-w-sm">
               <img
-                src="/image.png"
+                src="/offical.png"
                 alt={`Portrait of ${profileContent.name}`}
                 className="h-[26rem] w-full object-cover md:h-[30rem]"
               />
