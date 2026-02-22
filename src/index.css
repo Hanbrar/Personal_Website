@@ -368,6 +368,21 @@ body {
   transform: translate(-1px, -1px);
 }
 
+/* ─── Recording / live-feed dot (red) ────────────────── */
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF4040;
+  flex-shrink: 0;
+  animation: rec-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgb(255 64 64 / 0.6); }
+  50%      { opacity: 0.7; box-shadow: 0 0 0 5px rgb(255 64 64 / 0); }
+}
+
 /* ─── Live indicator ──────────────────────────────────── */
 .live-dot {
   width: 7px;

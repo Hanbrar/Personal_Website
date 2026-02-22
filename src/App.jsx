@@ -66,20 +66,8 @@ function App() {
           </span>
           <div className="flex items-center gap-1">
             <a href="#top" className="nav-link">Home</a>
-            <a
-              href="https://www.linkedin.com/in/hanryck-brar/"
-              target="_blank"
-              rel="noreferrer"
-              className="nav-link"
-            >
-              Profile
-            </a>
-            <a
-              href="/Hanryck_Brar_Resume.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="nav-link"
-            >
+            <a href="#blocks" className="nav-link">Live</a>
+            <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
               Resume ↗
             </a>
           </div>
@@ -90,7 +78,7 @@ function App() {
           <div className="stripe-overlay" />
           <div className="relative p-6 md:p-8">
 
-            {/* Buttons — top right corner */}
+            {/* Buttons — top right */}
             <div className="absolute right-5 top-5 flex gap-2 md:right-7 md:top-7">
               <a href="#blocks" className="btn-primary" style={{ fontSize: "12px", padding: "8px 16px" }}>
                 Live Status ↓
@@ -106,9 +94,8 @@ function App() {
               </button>
             </div>
 
-            {/* Name block — full width left */}
+            {/* Name block */}
             <div className="pr-52 md:pr-64">
-              <p className="section-kicker mb-4">Personal Profile 2026</p>
               <h1
                 className="name-glitch font-display text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl"
                 data-text={profileContent.name}
@@ -128,230 +115,7 @@ function App() {
           </div>
         </header>
 
-        {/* ──────────────── WORK + PROFILE ──────────────── */}
-        <section className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8">
-
-          {/* Current work */}
-          <article className="anime-card card-cyan rounded-[18px] p-6 md:p-8">
-            <p className="section-kicker mb-3">What I am doing currently</p>
-            <h2 className="section-title">Designing products that feel obvious and unforgettable.</h2>
-
-            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-              {profileContent.currentlyWorkingOn}
-            </p>
-
-            {currentBlock && (
-              <div className="mt-5 rounded-xl p-4" style={{ border: "2px solid #00A878", background: "rgb(0 168 120 / 0.07)" }}>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "#00A878" }}>
-                  ▸ Current status
-                </p>
-                <p className="mt-2 text-base font-bold">{currentBlock.title}</p>
-                <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                  {currentBlock.date} · {currentBlock.context}
-                </p>
-              </div>
-            )}
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {profileContent.currentFocusAreas.map((area) => (
-                <span key={area} className="skill-chip">{area}</span>
-              ))}
-            </div>
-
-            <p className="mt-6 font-mono text-[10px]" style={{ color: "rgb(var(--text-soft))" }}>
-              Last updated: {lastUpdated}
-            </p>
-          </article>
-
-          {/* Profile image */}
-          <aside className="flex flex-col items-center justify-center gap-5">
-            <div className="profile-frame w-full max-w-sm">
-              <img
-                src="/image.png"
-                alt={`Portrait of ${profileContent.name}`}
-                className="h-[26rem] w-full object-cover md:h-[30rem]"
-              />
-            </div>
-            <span
-              className="cyber-badge"
-              style={{ color: "#FFD84A", borderColor: "#FFD84A", background: "rgb(255 216 74 / 0.1)" }}
-            >
-              Product Design + Build
-            </span>
-          </aside>
-        </section>
-
-        {/* ──────────────── LIVE STATUS FEED ────────────── */}
-        <section id="blocks" className="anime-card card-teal rounded-[18px] p-6 md:p-8">
-          <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
-            <div>
-              <p className="section-kicker mb-3">Blocks</p>
-              <h2 className="section-title">Live Status Feed</h2>
-              <p className="mt-4 text-base leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                Code-driven status timeline. Add a new entry to{" "}
-                <code className="font-mono font-bold" style={{ color: "#00CFCF" }}>profileContent.js</code>{" "}
-                and your newest update appears first.
-              </p>
-            </div>
-
-            <div className="feed-shell">
-              <div className="feed-header-bar">
-                <div className="feed-dot" />
-                <div className="feed-dot" />
-                <div className="feed-dot" />
-                <span className="ml-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgb(0 0 0 / 0.55)" }}>
-                  status.log
-                </span>
-              </div>
-
-              <div className="scanline-wrap">
-                <div className="scanline" />
-                <ol className="relative z-10">
-                  {profileContent.blocks.map((block) => (
-                    <li
-                      key={`${block.date}-${block.title}`}
-                      className="feed-row grid gap-3 px-4 py-4 sm:grid-cols-[92px_1fr] sm:gap-5"
-                    >
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "#00A878" }}>
-                        {block.date}
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold leading-snug md:text-base">{block.title}</p>
-                        <p className="mt-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                          {block.context}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ──────────────── FEATURED BUILD ──────────────── */}
-        <section id="projects">
-          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <p className="section-kicker">Main Build</p>
-            <h2 className="section-title">Featured Project</h2>
-          </div>
-
-          <article className="anime-card card-yellow rounded-[18px] overflow-hidden">
-            <div className="h-1.5" style={{ background: "#FFD84A" }} />
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-
-                {/* Info */}
-                <div className="flex-1">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="live-dot" />
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "#A3D900" }}>
-                      Live
-                    </span>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                      · {profileContent.mainProject.date}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                    {profileContent.mainProject.title}
-                  </h3>
-                  <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                    {profileContent.mainProject.tagline}
-                  </p>
-
-                  <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-                    {profileContent.mainProject.summary}
-                  </p>
-
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {profileContent.mainProject.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
-                        style={{ background: "rgb(255 216 74 / 0.12)", color: "#FFD84A" }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div className="flex-shrink-0">
-                  <a
-                    href={profileContent.mainProject.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-primary"
-                  >
-                    deepconverge.ai ↗
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          </article>
-        </section>
-
-        {/* ──────────────── SCHOOL PROJECTS ─────────────── */}
-        <section>
-          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <p className="section-kicker">Engineering</p>
-            <h2 className="section-title">School Projects</h2>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            {profileContent.schoolProjects.map((project, i) => {
-              const scheme = i === 0
-                ? { card: "card-lime",  color: "#A3D900", bg: "rgb(163 217 0  / 0.10)" }
-                : { card: "card-teal",  color: "#00A878", bg: "rgb(0 168 120  / 0.10)" }
-
-              return (
-                <article
-                  key={project.title}
-                  className={`anime-card ${scheme.card} flex flex-col overflow-hidden rounded-[14px]`}
-                >
-                  <div className="h-1.5" style={{ background: scheme.color }} />
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
-                        <p className="mt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: scheme.color }}>
-                          {project.tagline}
-                        </p>
-                      </div>
-                      <span
-                        className="cyber-badge flex-shrink-0"
-                        style={{ color: scheme.color, borderColor: scheme.color, background: scheme.bg }}
-                      >
-                        {project.status}
-                      </span>
-                    </div>
-
-                    <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                      {project.summary}
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
-                          style={{ background: scheme.bg, color: scheme.color }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </section>
-
-        {/* ──────────────── ABOUT + CONTACT ─────────────── */}
+        {/* ──────────────── WHO I AM + LINKS (top) ──────── */}
         <section className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
 
           <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8">
@@ -400,6 +164,228 @@ function App() {
           </article>
 
         </section>
+
+        {/* ──────────────── CURRENT WORK + PROFILE ──────── */}
+        <section className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8">
+
+          <article className="anime-card card-cyan rounded-[18px] p-6 md:p-8">
+            <p className="section-kicker mb-3">What I am building</p>
+            <h2 className="section-title">Building AI product applications, updated daily.</h2>
+
+            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+              {profileContent.currentlyWorkingOn}
+            </p>
+
+            {currentBlock && (
+              <div className="mt-5 rounded-xl p-4" style={{ border: "2px solid #00A878", background: "rgb(0 168 120 / 0.07)" }}>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "#00A878" }}>
+                  ▸ Latest update
+                </p>
+                <p className="mt-2 text-base font-bold">{currentBlock.title}</p>
+                <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                  {currentBlock.date} · {currentBlock.context}
+                </p>
+                <a
+                  href="#blocks"
+                  className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] transition hover:opacity-70"
+                  style={{ color: "#00CFCF" }}
+                >
+                  See full log ↓
+                </a>
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {profileContent.currentFocusAreas.map((area) => (
+                <span key={area} className="skill-chip">{area}</span>
+              ))}
+            </div>
+
+            <p className="mt-6 font-mono text-[10px]" style={{ color: "rgb(var(--text-soft))" }}>
+              Last updated: {lastUpdated}
+            </p>
+          </article>
+
+          <aside className="flex flex-col items-center justify-center gap-5">
+            <div className="profile-frame w-full max-w-sm">
+              <img
+                src="/image.png"
+                alt={`Portrait of ${profileContent.name}`}
+                className="h-[26rem] w-full object-cover md:h-[30rem]"
+              />
+            </div>
+            <span
+              className="cyber-badge"
+              style={{ color: "#FFD84A", borderColor: "#FFD84A", background: "rgb(255 216 74 / 0.1)" }}
+            >
+              Product Design + Build
+            </span>
+          </aside>
+        </section>
+
+        {/* ──────────────── LIVE STATUS FEED ────────────── */}
+        <section id="blocks" className="anime-card card-teal rounded-[18px] p-6 md:p-8">
+          <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
+            <div>
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="rec-dot" />
+                <h2 className="section-title" style={{ fontSize: "1.5rem" }}>Live Status</h2>
+              </div>
+              <p className="text-base leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                Updated daily. Every entry is what I am actively shipping, learning, or thinking about.
+              </p>
+            </div>
+
+            <div className="feed-shell">
+              <div className="feed-header-bar">
+                <div className="feed-dot" />
+                <div className="feed-dot" />
+                <div className="feed-dot" />
+                <span className="ml-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgb(0 0 0 / 0.55)" }}>
+                  status.log
+                </span>
+              </div>
+
+              <div className="scanline-wrap">
+                <div className="scanline" />
+                <ol className="relative z-10">
+                  {profileContent.blocks.map((block) => (
+                    <li
+                      key={`${block.date}-${block.title}`}
+                      className="feed-row grid gap-3 px-4 py-4 sm:grid-cols-[92px_1fr] sm:gap-5"
+                    >
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "#00A878" }}>
+                        {block.date}
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold leading-snug md:text-base">{block.title}</p>
+                        <p className="mt-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                          {block.context}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ──────────────── DEEPCONVERGE ────────────────── */}
+        <section id="projects">
+          <article className="anime-card card-yellow rounded-[18px] overflow-hidden">
+            <div className="h-1.5" style={{ background: "#FFD84A" }} />
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+
+                <div className="flex-1">
+                  <div className="mb-3 flex items-center gap-3">
+                    <div className="live-dot" />
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "#A3D900" }}>
+                      Live
+                    </span>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                      · {profileContent.mainProject.date}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+                    {profileContent.mainProject.title}
+                  </h3>
+                  <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                    {profileContent.mainProject.tagline}
+                  </p>
+
+                  <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+                    {profileContent.mainProject.summary}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {profileContent.mainProject.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
+                        style={{ background: "rgb(255 216 74 / 0.12)", color: "#FFD84A" }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex-shrink-0">
+                  <a
+                    href={profileContent.mainProject.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-primary"
+                  >
+                    deepconverge.ai ↗
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* ──────────────── SCHOOL PROJECTS ─────────────── */}
+        <section>
+          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="section-kicker">Engineering</p>
+            <h2 className="section-title">School Projects</h2>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {profileContent.schoolProjects.map((project, i) => {
+              const scheme = i === 0
+                ? { card: "card-lime", color: "#A3D900", bg: "rgb(163 217 0  / 0.10)" }
+                : { card: "card-teal", color: "#00A878", bg: "rgb(0 168 120  / 0.10)" }
+
+              return (
+                <article
+                  key={project.title}
+                  className={`anime-card ${scheme.card} flex flex-col overflow-hidden rounded-[14px]`}
+                >
+                  <div className="h-1.5" style={{ background: scheme.color }} />
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
+                        <p className="mt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: scheme.color }}>
+                          {project.tagline}
+                        </p>
+                      </div>
+                      <span
+                        className="cyber-badge flex-shrink-0"
+                        style={{ color: scheme.color, borderColor: scheme.color, background: scheme.bg }}
+                      >
+                        {project.status}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                      {project.summary}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
+                          style={{ background: scheme.bg, color: scheme.color }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </section>
+
       </main>
     </div>
   )

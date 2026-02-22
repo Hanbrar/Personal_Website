@@ -6,7 +6,7 @@ export const profileContent = {
   lastUpdated: "2026-02-22",
 
   currentlyWorkingOn:
-    "Building AI-native products and engineering systems at the intersection of hardware and software. Studying Electrical Engineering at UBC while shipping production-grade software.",
+    "Building AI product applications, updated every day. Tracking what I am shipping, learning, and thinking about in real time.",
 
   currentFocusAreas: [
     "Multi-agent AI systems",
@@ -16,7 +16,7 @@ export const profileContent = {
   ],
 
   about:
-    "Electrical Engineering student at UBC with a deep interest in AI product development. I build end-to-end — from FPGA circuits to full-stack web apps — and I am working toward a career in AI product management where engineering intuition meets product thinking.",
+    "Electrical Engineering student at UBC with a deep interest in AI product development. I build end-to-end, from FPGA circuits to full-stack web apps, and I am working toward a career in AI product management where engineering intuition meets product thinking.",
 
   contacts: [
     {
@@ -64,6 +64,11 @@ export const profileContent = {
       date: "01.27.26",
       title: "Creating reusable UI architecture for future experiments and launches",
       context: "System"
+    },
+    {
+      date: "09.09.24",
+      title: "Started Electrical Engineering at UBC",
+      context: "Education"
     }
   ],
 
@@ -72,7 +77,7 @@ export const profileContent = {
     tagline: "Multi-Agentic AI Debate Platform",
     href: "https://deepconverge.ai",
     summary:
-      "Full-stack multi-agentic debate platform featuring three AI agents — Advocate, Critic, and Judge — that reason collaboratively via real-time SSE streaming using NVIDIA Nemotron 30B. Includes waitlist-gated access, debate history replay, PDF export with LaTeX-to-Unicode math rendering, and toggleable convergent thinking mode.",
+      "Full-stack multi-agentic debate platform featuring three AI agents, Advocate, Critic, and Judge, that reason collaboratively via real-time SSE streaming using NVIDIA Nemotron 30B. Includes waitlist-gated access, debate history replay, PDF export with LaTeX-to-Unicode math rendering, and toggleable convergent thinking mode.",
     tags: ["Multi-Agent AI", "Next.js 14", "Supabase", "PostgreSQL", "SSE Streaming", "Vercel"],
     status: "Live",
     date: "Feb 2026"
