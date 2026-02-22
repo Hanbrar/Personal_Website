@@ -331,8 +331,7 @@ function App() {
 
         {/* ──────────────── SCHOOL PROJECTS ─────────────── */}
         <section>
-          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <p className="section-kicker">Engineering</p>
+          <div className="mb-5">
             <h2 className="section-title">School Projects</h2>
           </div>
 
