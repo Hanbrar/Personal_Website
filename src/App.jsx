@@ -147,7 +147,7 @@ function Home({ darkMode, setDarkMode }) {
         </header>
 
         {/* ──────────────── WHO I AM + PROFILE IMAGE ──────────────── */}
-        <section className="grid gap-6 md:grid-cols-2 md:gap-8">
+        <section className="grid gap-6 md:grid-cols-2 md:gap-7">
 
           {/* Who I am — left */}
           <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8 flex flex-col justify-center">
