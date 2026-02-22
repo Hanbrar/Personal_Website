@@ -42,28 +42,23 @@ export const profileContent = {
   blocks: [
     {
       date: "02.22.26",
-      title: "Shaping this portfolio into a high-signal product design showcase",
+      title: "Launch this personal site using Claude Opus 4.6",
       context: "Now"
     },
     {
-      date: "02.20.26",
-      title: "Refining visual systems and interaction detail for 2026 web standards",
-      context: "Design"
-    },
-    {
       date: "02.15.26",
-      title: "Prototyping AI-powered product workflows for faster iteration cycles",
+      title: "Enter NVIDIA 2026 GTC competition with deepconverge.ai",
       context: "Build"
     },
     {
-      date: "02.03.26",
-      title: "Upgrading personal brand assets and case-study storytelling",
+      date: "02.16.26",
+      title: "Rebrand from Kangaroo to deepconverge.ai",
       context: "Brand"
     },
     {
-      date: "01.27.26",
-      title: "Creating reusable UI architecture for future experiments and launches",
-      context: "System"
+      date: "02.04.26",
+      title: "Start Kangaroo multi-agentic debate platform",
+      context: "Build"
     },
     {
       date: "09.09.24",

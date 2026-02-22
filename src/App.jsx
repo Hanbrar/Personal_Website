@@ -46,7 +46,7 @@ function App() {
 
 function Home({ darkMode, setDarkMode }) {
   return (
-    <div className="relative overflow-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
+    <div className="relative overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
 
       {/* Background grid */}
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
@@ -68,7 +68,7 @@ function Home({ darkMode, setDarkMode }) {
           <span className="font-mono text-xs font-bold tracking-[0.22em] uppercase" style={{ color: "rgb(var(--text-soft))" }}>
             HB · 2026
           </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
@@ -130,7 +130,7 @@ function Home({ darkMode, setDarkMode }) {
                 ))}
               </div>
 
-              {/* Resume buttons */}
+              {/* Resume button */}
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
                   href="/Hanryck_Brar_Resume.pdf"
@@ -140,14 +140,6 @@ function Home({ darkMode, setDarkMode }) {
                   style={{ fontSize: "12px", padding: "9px 18px" }}
                 >
                   View Resume ↗
-                </a>
-                <a
-                  href="/Hanryck_Brar_Resume.pdf"
-                  download
-                  className="btn-ghost"
-                  style={{ fontSize: "12px", padding: "9px 18px" }}
-                >
-                  Download ↓
                 </a>
               </div>
             </div>
@@ -175,9 +167,9 @@ function Home({ darkMode, setDarkMode }) {
           <div className="flex flex-col items-center justify-center gap-4">
             <div className="profile-frame w-full max-w-sm">
               <img
-                src="/offical.png"
+                src="/officalnow.png"
                 alt={`Portrait of ${profileContent.name}`}
-                className="h-[26rem] w-full object-cover md:h-[30rem]"
+                className="h-[20rem] w-full object-cover md:h-[30rem]"
               />
             </div>
             <span

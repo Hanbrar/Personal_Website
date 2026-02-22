@@ -3,7 +3,7 @@ import { profileContent } from "../content/profileContent"
 
 export default function LiveStatus({ darkMode, setDarkMode }) {
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
+    <div className="relative min-h-screen overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
 
       {/* Background */}
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
@@ -39,7 +39,7 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
             </h1>
           </div>
           <p className="font-mono text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-            Updated daily. Every entry is what I am actively shipping, learning, or thinking about.
+            Every entry is what I am actively shipping, learning, or thinking about.
           </p>
         </div>
 
