@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
+import { Routes, Route, Link } from "react-router-dom"
 import { profileContent } from "./content/profileContent"
+import LiveStatus from "./pages/LiveStatus"
 
 const THEME_KEY = "hb-theme"
 
@@ -34,13 +36,15 @@ function App() {
     window.localStorage.setItem(THEME_KEY, darkMode ? "dark" : "light")
   }, [darkMode])
 
-  const lastUpdated = useMemo(() => {
-    const d = new Date(profileContent.lastUpdated)
-    return d.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
-  }, [])
+  return (
+    <Routes>
+      <Route path="/" element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
+      <Route path="/live" element={<LiveStatus darkMode={darkMode} setDarkMode={setDarkMode} />} />
+    </Routes>
+  )
+}
 
-  const currentBlock = profileContent.blocks[0]
-
+function Home({ darkMode, setDarkMode }) {
   return (
     <div className="relative overflow-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
 
@@ -59,30 +63,27 @@ function App() {
 
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-7 md:gap-9">
 
-        {/* ──────────────────── NAV ──────────────────── */}
+        {/* ──────────────── NAV ──────────────── */}
         <nav className="flex items-center justify-between">
           <span className="font-mono text-xs font-bold tracking-[0.22em] uppercase" style={{ color: "rgb(var(--text-soft))" }}>
             HB · 2026
           </span>
           <div className="flex items-center gap-1">
-            <a href="#top" className="nav-link">Home</a>
-            <a href="#blocks" className="nav-link">Live</a>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/live" className="nav-link">Live</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
               Resume ↗
             </a>
           </div>
         </nav>
 
-        {/* ──────────────────── HEADER ──────────────────── */}
+        {/* ──────────────── HEADER ──────────────── */}
         <header id="top" className="anime-card card-yellow rounded-[18px] overflow-hidden">
           <div className="stripe-overlay" />
           <div className="relative p-6 md:p-8">
 
-            {/* Buttons — top right */}
-            <div className="absolute right-5 top-5 flex gap-2 md:right-7 md:top-7">
-              <a href="#blocks" className="btn-primary" style={{ fontSize: "12px", padding: "8px 16px" }}>
-                Live Status ↓
-              </a>
+            {/* Dark mode toggle — top right */}
+            <div className="absolute right-5 top-5 md:right-7 md:top-7">
               <button
                 type="button"
                 onClick={() => setDarkMode(d => !d)}
@@ -94,8 +95,8 @@ function App() {
               </button>
             </div>
 
-            {/* Name block */}
-            <div className="pr-52 md:pr-64">
+            {/* Identity block */}
+            <div className="pr-32 md:pr-40">
               <h1
                 className="name-glitch font-display text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl"
                 data-text={profileContent.name}
@@ -108,105 +109,56 @@ function App() {
               <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#00CFCF" }}>
                 {profileContent.subtitle}
               </p>
-              <p className="mt-2 font-mono text-xs font-semibold tracking-wider" style={{ color: "rgb(var(--text-soft))" }}>
+              <p className="mt-1 font-mono text-xs font-semibold tracking-wider" style={{ color: "rgb(var(--text-soft))" }}>
                 {profileContent.location}
               </p>
+
+              {/* Social links */}
+              <div className="mt-5 flex flex-wrap gap-4">
+                {profileContent.contacts.map((contact) => (
+                  <a
+                    key={contact.id}
+                    href={contact.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-[0.14em] transition hover:opacity-60"
+                    style={{ color: "rgb(var(--text-soft))" }}
+                  >
+                    {contactIconMap[contact.id]}
+                    {contact.label} ↗
+                  </a>
+                ))}
+              </div>
+
+              {/* Resume buttons */}
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href="/Hanryck_Brar_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-primary"
+                  style={{ fontSize: "12px", padding: "9px 18px" }}
+                >
+                  View Resume ↗
+                </a>
+                <a
+                  href="/Hanryck_Brar_Resume.pdf"
+                  download
+                  className="btn-ghost"
+                  style={{ fontSize: "12px", padding: "9px 18px" }}
+                >
+                  Download ↓
+                </a>
+              </div>
             </div>
           </div>
         </header>
 
-        {/* ──────────────── WHO I AM + LINKS (top) ──────── */}
-        <section className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
+        {/* ──────────────── PROFILE IMAGE + WHO I AM ──────────────── */}
+        <section className="grid gap-6 md:grid-cols-2 md:gap-8">
 
-          <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8">
-            <p className="section-kicker mb-3">About me</p>
-            <h2 className="section-title">Who I am</h2>
-            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-              {profileContent.about}
-            </p>
-          </article>
-
-          <article className="anime-card card-blue rounded-[18px] p-6 md:p-8">
-            <p className="section-kicker mb-3">Links + Resume</p>
-            <h2 className="section-title">Connect with me</h2>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {profileContent.contacts.map((contact) => {
-                const isExternal = contact.href.startsWith("http")
-                return (
-                  <a
-                    key={contact.id}
-                    href={contact.href}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noreferrer" : undefined}
-                    className="contact-link"
-                  >
-                    <span className="flex items-center gap-2 capitalize">
-                      {contactIconMap[contact.id]}
-                      {contact.label}
-                    </span>
-                    <span className="truncate font-mono text-[11px] font-semibold" style={{ color: "rgb(var(--text-soft))" }}>
-                      {contact.value}
-                    </span>
-                  </a>
-                )
-              })}
-            </div>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="btn-primary justify-center">
-                View Resume ↗
-              </a>
-              <a href="/Hanryck_Brar_Resume.pdf" download className="btn-ghost justify-center">
-                Download ↓
-              </a>
-            </div>
-          </article>
-
-        </section>
-
-        {/* ──────────────── CURRENT WORK + PROFILE ──────── */}
-        <section className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8">
-
-          <article className="anime-card card-cyan rounded-[18px] p-6 md:p-8">
-            <p className="section-kicker mb-3">What I am building</p>
-            <h2 className="section-title">Building AI product applications, updated daily.</h2>
-
-            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-              {profileContent.currentlyWorkingOn}
-            </p>
-
-            {currentBlock && (
-              <div className="mt-5 rounded-xl p-4" style={{ border: "2px solid #00A878", background: "rgb(0 168 120 / 0.07)" }}>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "#00A878" }}>
-                  ▸ Latest update
-                </p>
-                <p className="mt-2 text-base font-bold">{currentBlock.title}</p>
-                <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                  {currentBlock.date} · {currentBlock.context}
-                </p>
-                <a
-                  href="#blocks"
-                  className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] transition hover:opacity-70"
-                  style={{ color: "#00CFCF" }}
-                >
-                  See full log ↓
-                </a>
-              </div>
-            )}
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {profileContent.currentFocusAreas.map((area) => (
-                <span key={area} className="skill-chip">{area}</span>
-              ))}
-            </div>
-
-            <p className="mt-6 font-mono text-[10px]" style={{ color: "rgb(var(--text-soft))" }}>
-              Last updated: {lastUpdated}
-            </p>
-          </article>
-
-          <aside className="flex flex-col items-center justify-center gap-5">
+          {/* Profile image */}
+          <div className="flex flex-col items-center justify-center gap-4">
             <div className="profile-frame w-full max-w-sm">
               <img
                 src="/image.png"
@@ -220,58 +172,25 @@ function App() {
             >
               Product Design + Build
             </span>
-          </aside>
-        </section>
-
-        {/* ──────────────── LIVE STATUS FEED ────────────── */}
-        <section id="blocks" className="anime-card card-teal rounded-[18px] p-6 md:p-8">
-          <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
-            <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <div className="rec-dot" />
-                <h2 className="section-title" style={{ fontSize: "1.5rem" }}>Live Status</h2>
-              </div>
-              <p className="text-base leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                Updated daily. Every entry is what I am actively shipping, learning, or thinking about.
-              </p>
-            </div>
-
-            <div className="feed-shell">
-              <div className="feed-header-bar">
-                <div className="feed-dot" />
-                <div className="feed-dot" />
-                <div className="feed-dot" />
-                <span className="ml-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgb(0 0 0 / 0.55)" }}>
-                  status.log
-                </span>
-              </div>
-
-              <div className="scanline-wrap">
-                <div className="scanline" />
-                <ol className="relative z-10">
-                  {profileContent.blocks.map((block) => (
-                    <li
-                      key={`${block.date}-${block.title}`}
-                      className="feed-row grid gap-3 px-4 py-4 sm:grid-cols-[92px_1fr] sm:gap-5"
-                    >
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "#00A878" }}>
-                        {block.date}
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold leading-snug md:text-base">{block.title}</p>
-                        <p className="mt-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                          {block.context}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
           </div>
+
+          {/* Who I am */}
+          <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8 flex flex-col justify-center">
+            <p className="section-kicker mb-3">About me</p>
+            <h2 className="section-title">Who I am</h2>
+            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+              {profileContent.about}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {profileContent.currentFocusAreas.map((area) => (
+                <span key={area} className="skill-chip">{area}</span>
+              ))}
+            </div>
+          </article>
+
         </section>
 
-        {/* ──────────────── DEEPCONVERGE ────────────────── */}
+        {/* ──────────────── DEEPCONVERGE ──────────────── */}
         <section id="projects">
           <article className="anime-card card-yellow rounded-[18px] overflow-hidden">
             <div className="h-1.5" style={{ background: "#FFD84A" }} />
@@ -329,7 +248,7 @@ function App() {
           </article>
         </section>
 
-        {/* ──────────────── SCHOOL PROJECTS ─────────────── */}
+        {/* ──────────────── SCHOOL PROJECTS ──────────────── */}
         <section>
           <div className="mb-5">
             <h2 className="section-title">School Projects</h2>
