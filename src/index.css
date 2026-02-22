@@ -346,11 +346,49 @@ body {
 /* Ensure children of stripe-overlay parents render above it */
 .stripe-overlay ~ * { position: relative; z-index: 1; }
 
+/* ─── Nav link ────────────────────────────────────────── */
+.nav-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--text-soft));
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  transition: all 0.12s;
+}
+
+.nav-link:hover {
+  color: #00CFCF;
+  border-color: #00CFCF;
+  box-shadow: 2px 2px 0 #00CFCF;
+  transform: translate(-1px, -1px);
+}
+
+/* ─── Live indicator ──────────────────────────────────── */
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #A3D900;
+  flex-shrink: 0;
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgb(163 217 0 / 0.55); }
+  50%      { opacity: 0.85; box-shadow: 0 0 0 5px rgb(163 217 0 / 0); }
+}
+
 /* ─── Reduced motion ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .scanline,
   .name-glitch::before,
-  .name-glitch::after {
+  .name-glitch::after,
+  .live-dot {
     animation: none !important;
   }
 }

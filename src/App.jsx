@@ -21,18 +21,12 @@ const contactIconMap = {
   )
 }
 
-const projectSchemes = [
-  { card: "card-yellow", color: "#FFD84A", bg: "rgb(255 216 74 / 0.10)" },
-  { card: "card-lime",   color: "#A3D900", bg: "rgb(163 217 0  / 0.10)" },
-  { card: "card-blue",  color: "#0066FF", bg: "rgb(0 102 255  / 0.10)" },
-]
-
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") return true
     const saved = window.localStorage.getItem(THEME_KEY)
     if (saved) return saved === "dark"
-    return true // Default dark — anime aesthetic lives here
+    return true
   })
 
   useEffect(() => {
@@ -48,12 +42,12 @@ function App() {
   const currentBlock = profileContent.blocks[0]
 
   return (
-    <div className="relative overflow-hidden px-4 pb-24 pt-6 md:px-8 md:pt-10">
+    <div className="relative overflow-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
 
       {/* Background grid */}
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
 
-      {/* Ambient colour blobs */}
+      {/* Ambient blobs */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-32 top-1/3 h-80 w-80 rounded-full opacity-20"
           style={{ background: "radial-gradient(circle, #00CFCF, transparent 70%)" }} />
@@ -65,33 +59,71 @@ function App() {
 
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-7 md:gap-9">
 
+        {/* ──────────────────── NAV ──────────────────── */}
+        <nav className="flex items-center justify-between">
+          <span className="font-mono text-xs font-bold tracking-[0.22em] uppercase" style={{ color: "rgb(var(--text-soft))" }}>
+            HB · 2026
+          </span>
+          <div className="flex items-center gap-1">
+            <a href="#top" className="nav-link">Home</a>
+            <a
+              href="https://www.linkedin.com/in/hanryck-brar/"
+              target="_blank"
+              rel="noreferrer"
+              className="nav-link"
+            >
+              Profile
+            </a>
+            <a
+              href="/Hanryck_Brar_Resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="nav-link"
+            >
+              Resume ↗
+            </a>
+          </div>
+        </nav>
+
         {/* ──────────────────── HEADER ──────────────────── */}
-        <header className="anime-card card-yellow rounded-[18px] overflow-hidden">
+        <header id="top" className="anime-card card-yellow rounded-[18px] overflow-hidden">
           <div className="stripe-overlay" />
-          <div className="flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8">
-            <div>
-              <p className="section-kicker mb-3">Personal Profile 2026</p>
+          <div className="relative p-6 md:p-8">
+
+            {/* Buttons — top right corner */}
+            <div className="absolute right-5 top-5 flex gap-2 md:right-7 md:top-7">
+              <a href="#blocks" className="btn-primary" style={{ fontSize: "12px", padding: "8px 16px" }}>
+                Live Status ↓
+              </a>
+              <button
+                type="button"
+                onClick={() => setDarkMode(d => !d)}
+                className="btn-ghost"
+                style={{ fontSize: "12px", padding: "8px 16px" }}
+                aria-label="Toggle theme"
+              >
+                {darkMode ? "☀ Light" : "☽ Dark"}
+              </button>
+            </div>
+
+            {/* Name block — full width left */}
+            <div className="pr-52 md:pr-64">
+              <p className="section-kicker mb-4">Personal Profile 2026</p>
               <h1
                 className="name-glitch font-display text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl"
                 data-text={profileContent.name}
               >
                 {profileContent.name}
               </h1>
-              <p className="mt-2 font-mono text-sm font-semibold tracking-widest" style={{ color: "rgb(var(--text-soft))" }}>
-                {profileContent.title} · {profileContent.location}
+              <p className="mt-3 font-display text-xl font-bold tracking-tight md:text-2xl">
+                {profileContent.title}
               </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <a href="#blocks" className="btn-primary">Live Status ↓</a>
-              <button
-                type="button"
-                onClick={() => setDarkMode(d => !d)}
-                className="btn-ghost"
-                aria-label="Toggle theme"
-              >
-                {darkMode ? "☀ Light" : "☽ Dark"}
-              </button>
+              <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#00CFCF" }}>
+                {profileContent.subtitle}
+              </p>
+              <p className="mt-2 font-mono text-xs font-semibold tracking-wider" style={{ color: "rgb(var(--text-soft))" }}>
+                {profileContent.location}
+              </p>
             </div>
           </div>
         </header>
@@ -197,29 +229,100 @@ function App() {
           </div>
         </section>
 
-        {/* ──────────────── SELECTED BUILDS ─────────────── */}
+        {/* ──────────────── FEATURED BUILD ──────────────── */}
         <section id="projects">
-          <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <p className="section-kicker">What I have made so far</p>
-            <h2 className="section-title">Selected Builds</h2>
+          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="section-kicker">Main Build</p>
+            <h2 className="section-title">Featured Project</h2>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {profileContent.projects.map((project, i) => {
-              const scheme = projectSchemes[i % projectSchemes.length]
+          <article className="anime-card card-yellow rounded-[18px] overflow-hidden">
+            <div className="h-1.5" style={{ background: "#FFD84A" }} />
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+
+                {/* Info */}
+                <div className="flex-1">
+                  <div className="mb-3 flex items-center gap-3">
+                    <div className="live-dot" />
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "#A3D900" }}>
+                      Live
+                    </span>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                      · {profileContent.mainProject.date}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+                    {profileContent.mainProject.title}
+                  </h3>
+                  <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                    {profileContent.mainProject.tagline}
+                  </p>
+
+                  <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+                    {profileContent.mainProject.summary}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {profileContent.mainProject.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
+                        style={{ background: "rgb(255 216 74 / 0.12)", color: "#FFD84A" }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="flex-shrink-0">
+                  <a
+                    href={profileContent.mainProject.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-primary"
+                  >
+                    deepconverge.ai ↗
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* ──────────────── SCHOOL PROJECTS ─────────────── */}
+        <section>
+          <div className="mb-5 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="section-kicker">Engineering</p>
+            <h2 className="section-title">School Projects</h2>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {profileContent.schoolProjects.map((project, i) => {
+              const scheme = i === 0
+                ? { card: "card-lime",  color: "#A3D900", bg: "rgb(163 217 0  / 0.10)" }
+                : { card: "card-teal",  color: "#00A878", bg: "rgb(0 168 120  / 0.10)" }
+
               return (
                 <article
                   key={project.title}
                   className={`anime-card ${scheme.card} flex flex-col overflow-hidden rounded-[14px]`}
                 >
-                  {/* Colour accent bar at top */}
                   <div className="h-1.5" style={{ background: scheme.color }} />
-
                   <div className="flex flex-1 flex-col p-5">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
+                      <div>
+                        <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
+                        <p className="mt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: scheme.color }}>
+                          {project.tagline}
+                        </p>
+                      </div>
                       <span
-                        className="cyber-badge"
+                        className="cyber-badge flex-shrink-0"
                         style={{ color: scheme.color, borderColor: scheme.color, background: scheme.bg }}
                       >
                         {project.status}
@@ -251,7 +354,6 @@ function App() {
         {/* ──────────────── ABOUT + CONTACT ─────────────── */}
         <section className="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:gap-8">
 
-          {/* About */}
           <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8">
             <p className="section-kicker mb-3">About me</p>
             <h2 className="section-title">Who I am</h2>
@@ -260,7 +362,6 @@ function App() {
             </p>
           </article>
 
-          {/* Contact */}
           <article className="anime-card card-blue rounded-[18px] p-6 md:p-8">
             <p className="section-kicker mb-3">Links + Resume</p>
             <h2 className="section-title">Connect with me</h2>
@@ -289,19 +390,10 @@ function App() {
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <a
-                href="/Hanryck_Brar_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="btn-primary justify-center"
-              >
+              <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="btn-primary justify-center">
                 View Resume ↗
               </a>
-              <a
-                href="/Hanryck_Brar_Resume.pdf"
-                download
-                className="btn-ghost justify-center"
-              >
+              <a href="/Hanryck_Brar_Resume.pdf" download className="btn-ghost justify-center">
                 Download ↓
               </a>
             </div>

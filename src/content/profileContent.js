@@ -1,18 +1,23 @@
 export const profileContent = {
   name: "Hanryck Brar",
-  title: "Product Designer + Builder",
-  location: "Canada",
+  title: "Electrical Engineer",
+  subtitle: "Aspiring AI Product Manager",
+  location: "Vancouver, BC",
   lastUpdated: "2026-02-22",
+
   currentlyWorkingOn:
-    "Designing and shipping product experiences that blend clean UI, growth thinking, and AI-native workflows.",
+    "Building AI-native products and engineering systems at the intersection of hardware and software. Studying Electrical Engineering at UBC while shipping production-grade software.",
+
   currentFocusAreas: [
-    "Design systems with personality",
-    "AI workflow automation",
-    "Product strategy and growth loops",
-    "Fast, accessible interfaces"
+    "Multi-agent AI systems",
+    "FPGA & embedded systems",
+    "Product design + strategy",
+    "Full-stack development"
   ],
+
   about:
-    "I build digital products that feel sharp, useful, and memorable. My process combines product design taste with execution speed, so ideas move from concept to shipped experience quickly.",
+    "Electrical Engineering student at UBC with a deep interest in AI product development. I build end-to-end — from FPGA circuits to full-stack web apps — and I am working toward a career in AI product management where engineering intuition meets product thinking.",
+
   contacts: [
     {
       id: "github",
@@ -33,6 +38,7 @@ export const profileContent = {
       value: "Hanryck Brar"
     }
   ],
+
   blocks: [
     {
       date: "02.22.26",
@@ -60,27 +66,34 @@ export const profileContent = {
       context: "System"
     }
   ],
-  projects: [
+
+  mainProject: {
+    title: "DeepConverge",
+    tagline: "Multi-Agentic AI Debate Platform",
+    href: "https://deepconverge.ai",
+    summary:
+      "Full-stack multi-agentic debate platform featuring three AI agents — Advocate, Critic, and Judge — that reason collaboratively via real-time SSE streaming using NVIDIA Nemotron 30B. Includes waitlist-gated access, debate history replay, PDF export with LaTeX-to-Unicode math rendering, and toggleable convergent thinking mode.",
+    tags: ["Multi-Agent AI", "Next.js 14", "Supabase", "PostgreSQL", "SSE Streaming", "Vercel"],
+    status: "Live",
+    date: "Feb 2026"
+  },
+
+  schoolProjects: [
     {
-      title: "AI Operator Toolkit",
+      title: "ARC4 Hardware Cracker",
+      tagline: "Parallel Verilog Key-Search Engine · FPGA",
       summary:
-        "A suite of focused agents that run research loops, summarize findings, and accelerate product decisions.",
-      tags: ["AI", "Automation", "Product Ops"],
-      status: "In Progress"
+        "High-throughput ARC4 key-cracking pipeline in Verilog with custom parallel processing, achieving 15M+ keys per second. Multi-core cracking units with on-chip memory buffering and timing-aware RTL optimization for maximum FPGA resource efficiency.",
+      tags: ["FPGA", "Verilog", "RTL Design", "Parallel Processing"],
+      status: "Dec 2025"
     },
     {
-      title: "Creator Growth Console",
+      title: "Autonomous Coin-Picking Robot",
+      tagline: "Project Lead · 6-Person Team",
       summary:
-        "Unified analytics and planning environment for social growth, creative performance, and launch cycles.",
-      tags: ["React", "Data", "Growth"],
-      status: "Shipped"
-    },
-    {
-      title: "Design Language Lab",
-      summary:
-        "A modular library exploring neo-minimal structure, expressive motion, and high-contrast storytelling.",
-      tags: ["UX", "Design Systems", "Motion"],
-      status: "Active"
+        "STM32/PIC32-based robot with JDY-40 wireless communication and inductive sensing for autonomous coin detection and retrieval. PWM motor and servo control with dual-mode navigation for precise movement in a competitive environment.",
+      tags: ["STM32", "Embedded C", "Robotics", "PCB Design"],
+      status: "May 2025"
     }
   ]
 }
