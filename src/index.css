@@ -1,159 +1,356 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Tokens ──────────────────────────────────────────── */
 :root {
-  --bg: 245 247 245;
-  --surface: 255 255 255;
-  --surface-muted: 231 239 236;
-  --text: 9 18 25;
-  --text-soft: 70 90 96;
-  --accent: 12 139 127;
-  --accent-2: 249 115 22;
-  --ring: 13 148 136;
+  --bg:        246 246 252;
+  --surface:   255 255 255;
+  --surface-2: 232 234 248;
+  --text:      10  10  26;
+  --text-soft: 76  82  128;
+  --ink:       10  10  26;   /* used for borders + offset shadows in light */
 }
 
 .dark {
-  --bg: 7 13 19;
-  --surface: 16 25 33;
-  --surface-muted: 23 36 45;
-  --text: 232 244 245;
-  --text-soft: 155 177 183;
-  --accent: 45 212 191;
-  --accent-2: 251 146 60;
-  --ring: 94 234 212;
+  --bg:        6   6   20;
+  --surface:   12  12  32;
+  --surface-2: 18  18  44;
+  --text:      236 238 255;
+  --text-soft: 126 134 188;
+  --ink:       0   0   0;    /* used for borders + offset shadows in dark */
 }
 
-* {
-  @apply border-[rgb(var(--ring)/0.14)];
+/* Anime palette — identical in both modes */
+:root {
+  --yellow: 255 216 74;
+  --lime:   163 217 0;
+  --teal:   0   168 120;
+  --cyan:   0   207 207;
+  --blue:   0   102 255;
 }
+
+/* ─── Global ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  @apply min-h-screen font-body text-[rgb(var(--text))] antialiased;
+  @apply min-h-screen font-body antialiased;
+  color: rgb(var(--text));
   background-color: rgb(var(--bg));
   background-image:
-    radial-gradient(circle at 16% 10%, rgb(var(--accent) / 0.13), transparent 40%),
-    radial-gradient(circle at 83% 20%, rgb(var(--accent-2) / 0.13), transparent 36%),
-    linear-gradient(145deg, rgb(var(--bg)), rgb(var(--surface-muted) / 0.84));
+    radial-gradient(circle, rgb(var(--text) / 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 15% 5%,  rgb(var(--cyan) / 0.13) 0%, transparent 46%),
+    radial-gradient(ellipse at 85% 5%,  rgb(var(--blue) / 0.09) 0%, transparent 42%),
+    radial-gradient(ellipse at 50% 98%, rgb(var(--teal) / 0.07) 0%, transparent 36%);
+  background-size: 22px 22px, 100% 100%, 100% 100%, 100% 100%;
 }
 
-.glass-panel {
-  @apply border border-white/60 shadow-soft backdrop-blur-xl dark:border-white/10;
-  background: linear-gradient(
-    160deg,
-    rgb(var(--surface) / 0.88),
-    rgb(var(--surface-muted) / 0.7)
-  );
+/* ─── Anime card ──────────────────────────────────────── */
+.anime-card {
+  background: rgb(var(--surface));
+  border-style: solid;
+  border-width: 2.5px;
+  border-radius: 16px;
+  position: relative;
+  transition: transform 0.13s ease, box-shadow 0.13s ease;
+}
+
+.anime-card:hover { transform: translate(-2px, -2px); }
+
+/* ─── Card colour variants ────────────────────────────── */
+.card-yellow { border-color: #FFD84A; box-shadow: 5px 5px 0 #FFD84A; }
+.card-yellow:hover { box-shadow: 8px 8px 0 #FFD84A; }
+
+.card-cyan   { border-color: #00CFCF; box-shadow: 5px 5px 0 #00CFCF; }
+.card-cyan:hover   { box-shadow: 8px 8px 0 #00CFCF; }
+
+.card-teal   { border-color: #00A878; box-shadow: 5px 5px 0 #00A878; }
+.card-teal:hover   { box-shadow: 8px 8px 0 #00A878; }
+
+.card-lime   { border-color: #A3D900; box-shadow: 5px 5px 0 #A3D900; }
+.card-lime:hover   { box-shadow: 8px 8px 0 #A3D900; }
+
+.card-blue   { border-color: #0066FF; box-shadow: 5px 5px 0 #0066FF; }
+.card-blue:hover   { box-shadow: 8px 8px 0 #0066FF; }
+
+/* ─── Profile image frame ─────────────────────────────── */
+.profile-frame {
+  border: 3px solid #FFD84A;
+  box-shadow: 8px 8px 0 #FFD84A;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-frame:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 #FFD84A;
+}
+
+/* ─── Typography ──────────────────────────────────────── */
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgb(var(--text-soft));
+}
+
+.section-kicker::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00CFCF;
+  flex-shrink: 0;
 }
 
 .section-title {
-  @apply font-display text-2xl font-semibold md:text-3xl;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: rgb(var(--text));
 }
 
-.section-kicker {
-  @apply font-mono text-xs uppercase tracking-[0.24em] text-[rgb(var(--text-soft))];
+@media (min-width: 768px) {
+  .section-title { font-size: 2.25rem; }
 }
 
-.soft-stroke {
-  position: relative;
-}
+/* ─── Name glitch ─────────────────────────────────────── */
+.name-glitch { position: relative; display: inline-block; }
 
-.soft-stroke::before {
-  content: "";
+.name-glitch::before,
+.name-glitch::after {
+  content: attr(data-text);
   position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(
-    125deg,
-    rgb(var(--accent) / 0.52),
-    rgb(var(--accent-2) / 0.42),
-    transparent 70%
-  );
-  filter: blur(12px);
-  opacity: 0.4;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: glitch-flash 12s 4s infinite;
 }
 
-.neo-grid {
-  background-image:
-    linear-gradient(rgb(var(--ring) / 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--ring) / 0.2) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.7), transparent 80%);
+.name-glitch::before { color: #00CFCF; left: 2px; }
+.name-glitch::after  { color: #FFD84A; left: -2px; animation-delay: 4.5s; }
+
+@keyframes glitch-flash {
+  0%, 86%, 100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: none; }
+  87% { opacity: 0.75; clip-path: inset(30% 0 52% 0); transform: translateX(-3px); }
+  88% { opacity: 0.50; clip-path: inset(65% 0 10% 0); transform: translateX( 3px); }
+  89% { opacity: 0.70; clip-path: inset(12% 0 72% 0); transform: translateX(-2px); }
+  90% { opacity: 0.40; clip-path: inset(48% 0 30% 0); transform: translateX( 2px); }
+  91% { opacity: 0; }
 }
 
-.neon-edge {
-  position: relative;
+/* ─── Buttons ─────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 22px;
+  background: #FFD84A;
+  color: #060614;
+  border: 2.5px solid #060614;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 #060614;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.neon-edge::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: linear-gradient(110deg, rgb(var(--accent) / 0.3), rgb(var(--accent-2) / 0.24), transparent 72%);
-  filter: blur(18px);
-  opacity: 0.4;
-  z-index: -1;
+.btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #060614;
 }
 
-.glow-chip {
-  box-shadow: 0 8px 24px -18px rgb(var(--accent) / 0.95);
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 22px;
+  background: transparent;
+  color: rgb(var(--text));
+  border: 2.5px solid rgb(var(--text) / 0.28);
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 rgb(var(--text) / 0.14);
+  transition: all 0.12s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.orbital-ring {
-  border: 1px solid rgb(var(--ring) / 0.35);
-  animation: orbit-spin 16s linear infinite;
+.btn-ghost:hover {
+  border-color: #00CFCF;
+  box-shadow: 3px 3px 0 #00CFCF;
+  color: #00CFCF;
+  transform: translate(-2px, -2px);
 }
 
+/* ─── Skill chips ─────────────────────────────────────── */
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  background: rgb(0 207 207 / 0.07);
+  border: 1.5px solid #00CFCF;
+  border-radius: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #00CFCF;
+  transition: background 0.12s;
+}
+
+.skill-chip:hover { background: rgb(0 207 207 / 0.16); }
+
+/* ─── Cyber badge ─────────────────────────────────────── */
+.cyber-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border: 1.5px solid;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* ─── Feed shell ──────────────────────────────────────── */
 .feed-shell {
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.32);
+  border: 2.5px solid #00A878;
+  box-shadow: 4px 4px 0 #00A878;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgb(var(--surface));
+}
+
+.feed-header-bar {
+  background: #00A878;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.feed-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.38);
 }
 
 .feed-row {
-  transition: background-color 180ms ease;
+  border-bottom: 1px solid rgb(0 168 120 / 0.2);
+  transition: background 0.12s;
 }
 
-.feed-row:hover {
-  background-color: rgb(var(--surface-muted) / 0.45);
-}
+.feed-row:last-child { border-bottom: none; }
+.feed-row:hover { background: rgb(0 168 120 / 0.07); }
+
+/* Scanline */
+.scanline-wrap { position: relative; overflow: hidden; }
 
 .scanline {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
     to bottom,
     transparent,
-    rgb(var(--accent) / 0.08) 36%,
-    transparent 72%
+    rgb(0 207 207 / 0.07) 40%,
+    transparent 80%
   );
-  animation: scan-float 8s linear infinite;
-}
-
-@keyframes orbit-spin {
-  from {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.03);
-  }
-  to {
-    transform: rotate(360deg) scale(1);
-  }
+  animation: scan-float 7s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes scan-float {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(100%);
-  }
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(100%);  }
 }
 
+/* ─── Contact link ────────────────────────────────────── */
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgb(var(--surface));
+  border: 2px solid rgb(var(--text) / 0.1);
+  border-radius: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(var(--text));
+  text-decoration: none;
+  transition: all 0.13s ease;
+}
+
+.contact-link:hover {
+  border-color: #0066FF;
+  box-shadow: 3px 3px 0 #0066FF;
+  color: #0066FF;
+  transform: translate(-1px, -1px);
+}
+
+/* ─── Grid accent background ──────────────────────────── */
+.neo-grid {
+  background-image:
+    linear-gradient(rgb(0 207 207 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 207 207 / 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+}
+
+/* ─── Diagonal stripe overlay ─────────────────────────── */
+.stripe-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 5px,
+    rgb(255 255 255 / 0.022) 5px,
+    rgb(255 255 255 / 0.022) 6px
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure children of stripe-overlay parents render above it */
+.stripe-overlay ~ * { position: relative; z-index: 1; }
+
+/* ─── Reduced motion ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .orbital-ring,
-  .scanline {
-    animation: none;
+  .scanline,
+  .name-glitch::before,
+  .name-glitch::after {
+    animation: none !important;
   }
 }

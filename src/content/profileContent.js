@@ -15,12 +15,6 @@ export const profileContent = {
     "I build digital products that feel sharp, useful, and memorable. My process combines product design taste with execution speed, so ideas move from concept to shipped experience quickly.",
   contacts: [
     {
-      id: "email",
-      label: "Email",
-      href: "mailto:hansingbrar@gmail.com",
-      value: "hansingbrar@gmail.com"
-    },
-    {
       id: "github",
       label: "GitHub",
       href: "https://github.com/Hanbrar",
