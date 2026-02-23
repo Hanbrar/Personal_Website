@@ -41,9 +41,9 @@ export const profileContent = {
 
   blocks: [
     {
-      date: "02.22.26",
-      title: "Launch this personal site using Claude Opus 4.6",
-      context: "Now"
+      date: "2026-02-22",
+      title: "Building York and testing it out, an AI ads generator.",
+      context: "In progress, not sure if it will be a product"
     },
     {
       date: "02.15.26",
