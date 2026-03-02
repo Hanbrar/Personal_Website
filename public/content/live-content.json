@@ -2,7 +2,7 @@
   "blocks": [
     {
       "id": "status-2026-03-02-polyopus",
-      "date": "2026-03-02",
+      "date": "2026-03-03",
       "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
       "context": "Deployed"
     },
@@ -37,6 +37,17 @@
       "context": "Education"
     }
   ],
-  "blogs": [],
-  "updatedAt": "2026-03-02T00:00:00.000Z"
+  "blogs": [
+    {
+      "id": "blog-42a2bd39-5939-4f19-a062-5a5b4fe80f0a",
+      "url": "https://x.com/ItsHB17/status/2025099762240766066",
+      "title": "https://t.co/798SkQziPj",
+      "author": "Hanryck Brar",
+      "publishedAt": "",
+      "image": "",
+      "source": "x",
+      "addedAt": "2026-03-02T06:59:32.602Z"
+    }
+  ],
+  "updatedAt": "2026-03-02T06:59:40.118Z"
 }
