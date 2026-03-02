@@ -1,6 +1,13 @@
 {
   "blocks": [
     {
+      "id": "status-20e39601-0fdd-4b3e-800c-aea84971829a",
+      "date": "2026-03-02",
+      "title": "Retriever: Allowing users to easily move from one LLM to another",
+      "context": "Idea",
+      "url": ""
+    },
+    {
       "id": "status-2026-03-02-polyopus",
       "date": "2026-03-01",
       "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
@@ -110,5 +117,5 @@
       "cta": "Visit DeepConverge"
     }
   ],
-  "updatedAt": "2026-03-02T08:53:56.815Z"
+  "updatedAt": "2026-03-02T08:56:29.322Z"
 }
