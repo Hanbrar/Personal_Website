@@ -1,0 +1,42 @@
+{
+  "blocks": [
+    {
+      "id": "status-2026-03-02-polyopus",
+      "date": "2026-03-02",
+      "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
+      "context": "Deployed"
+    },
+    {
+      "id": "status-2026-02-22-york",
+      "date": "2026-02-22",
+      "title": "Building York and testing it out, an AI ads generator.",
+      "context": "In progress, not sure if it will be a product"
+    },
+    {
+      "id": "status-2026-02-15-gtc",
+      "date": "2026-02-15",
+      "title": "Entered NVIDIA GTC 2026 competition with deepconverge.ai",
+      "context": "Build"
+    },
+    {
+      "id": "status-2026-02-16-rebrand",
+      "date": "2026-02-16",
+      "title": "Rebrand from Kangaroo to deepconverge.ai",
+      "context": "Brand"
+    },
+    {
+      "id": "status-2026-02-04-kangaroo",
+      "date": "2026-02-04",
+      "title": "Started Kangaroo multi-agentic debate platform",
+      "context": "Build"
+    },
+    {
+      "id": "status-2024-09-09-ubc",
+      "date": "2024-09-09",
+      "title": "Started Electrical Engineering at UBC",
+      "context": "Education"
+    }
+  ],
+  "blogs": [],
+  "updatedAt": "2026-03-02T00:00:00.000Z"
+}

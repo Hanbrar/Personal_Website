@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
-import { profileContent } from "../content/profileContent"
+import { useLiveContent } from "../hooks/useLiveContent"
 
 export default function LiveStatus({ darkMode, setDarkMode }) {
+  const { content: liveContent } = useLiveContent()
+
   return (
     <div className="relative min-h-screen overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
@@ -18,7 +20,10 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
 
       <main className="mx-auto flex w-full max-w-2xl flex-col gap-8">
         <nav className="flex items-center justify-between">
-          <Link to="/" className="nav-link">Home</Link>
+          <div className="flex items-center gap-1">
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/admin" className="nav-link">Admin</Link>
+          </div>
           <button
             type="button"
             onClick={() => setDarkMode((d) => !d)}
@@ -58,9 +63,9 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
           <div className="scanline-wrap">
             <div className="scanline" />
             <ol className="relative z-10">
-              {profileContent.blocks.map((block) => (
+              {liveContent.blocks.map((block) => (
                 <li
-                  key={`${block.date}-${block.title}`}
+                  key={block.id}
                   className="feed-row grid gap-3 px-5 py-5 sm:grid-cols-[110px_1fr] sm:gap-6"
                 >
                   <span
@@ -82,6 +87,38 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
               ))}
             </ol>
           </div>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="section-title text-2xl md:text-3xl">Blogs from X</h2>
+          {liveContent.blogs.length === 0 ? (
+            <article className="anime-card card-cyan rounded-[12px] p-4">
+              <p className="text-sm" style={{ color: "rgb(var(--text-soft))" }}>
+                No blog cards yet. Add links in Admin.
+              </p>
+            </article>
+          ) : (
+            <div className="grid gap-4">
+              {liveContent.blogs.map((blog) => (
+                <article key={blog.id} className="anime-card card-cyan rounded-[12px] p-4">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgb(var(--text-soft))" }}>
+                    X Blog
+                  </p>
+                  <h3 className="mt-2 font-display text-lg font-bold leading-snug">{blog.title}</h3>
+                  {blog.author ? (
+                    <p className="mt-1 text-xs font-mono uppercase tracking-[0.12em]" style={{ color: "rgb(var(--text-soft))" }}>
+                      {blog.author}
+                    </p>
+                  ) : null}
+                  <div className="mt-3">
+                    <a href={blog.url} target="_blank" rel="noreferrer" className="btn-ghost" style={{ fontSize: "12px", padding: "8px 14px" }}>
+                      Open on X
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="text-center">

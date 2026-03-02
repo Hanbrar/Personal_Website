@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { Link, Route, Routes } from "react-router-dom"
 import { profileContent } from "./content/profileContent"
 import LiveStatus from "./pages/LiveStatus"
+import Admin from "./pages/Admin"
+import { useLiveContent } from "./hooks/useLiveContent"
 
 const THEME_KEY = "hb-theme"
 
@@ -40,11 +42,15 @@ function App() {
     <Routes>
       <Route path="/" element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
       <Route path="/live" element={<LiveStatus darkMode={darkMode} setDarkMode={setDarkMode} />} />
+      <Route path="/admin" element={<Admin darkMode={darkMode} setDarkMode={setDarkMode} />} />
     </Routes>
   )
 }
 
 function Home({ darkMode, setDarkMode }) {
+  const { content: liveContent } = useLiveContent()
+  const latestBlogs = [...(liveContent.blogs || [])].slice(0, 3)
+
   return (
     <div className="relative overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
       <div className="pointer-events-none fixed inset-0 -z-10 neo-grid opacity-90" />
@@ -57,6 +63,7 @@ function Home({ darkMode, setDarkMode }) {
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
+            <Link to="/admin" className="nav-link">Admin</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
               Resume
             </a>
@@ -168,7 +175,7 @@ function Home({ darkMode, setDarkMode }) {
                     <div className="flex-1">
                       <div className="mb-3 flex items-center gap-3">
                         <div className="live-dot" />
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black/80">
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text))" }}>
                           {project.status}
                         </span>
                         <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
@@ -188,7 +195,7 @@ function Home({ darkMode, setDarkMode }) {
                       </p>
 
                       <div className="mt-5">
-                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black/90">Tech stack</p>
+                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text))" }}>Tech stack</p>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {project.stack.map((tech) => (
                             <span key={tech} className="skill-chip">
@@ -202,7 +209,8 @@ function Home({ darkMode, setDarkMode }) {
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="rounded border border-black/30 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black/85"
+                            className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
+                            style={{ border: "1px solid rgb(var(--text) / 0.35)", color: "rgb(var(--text))" }}
                           >
                             {tag}
                           </span>
@@ -220,6 +228,41 @@ function Home({ darkMode, setDarkMode }) {
               </article>
             ))}
           </div>
+        </section>
+
+        <section>
+          <div className="mb-5">
+            <h2 className="section-title">Blogs from X</h2>
+          </div>
+
+          {latestBlogs.length === 0 ? (
+            <article className="anime-card card-cyan rounded-[14px] p-5">
+              <p className="text-sm" style={{ color: "rgb(var(--text-soft))" }}>
+                No blog cards yet. Add one from the Admin page by pasting an X post URL.
+              </p>
+            </article>
+          ) : (
+            <div className="grid gap-5 md:grid-cols-3">
+              {latestBlogs.map((blog) => (
+                <article key={blog.id} className="anime-card card-cyan flex flex-col rounded-[14px] p-5">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgb(var(--text-soft))" }}>
+                    X Blog
+                  </span>
+                  <h3 className="mt-2 font-display text-lg font-bold leading-snug">{blog.title}</h3>
+                  {blog.author ? (
+                    <p className="mt-1 text-xs font-mono uppercase tracking-[0.12em]" style={{ color: "rgb(var(--text-soft))" }}>
+                      {blog.author}
+                    </p>
+                  ) : null}
+                  <div className="mt-4">
+                    <a href={blog.url} target="_blank" rel="noreferrer" className="btn-ghost" style={{ fontSize: "12px", padding: "8px 14px" }}>
+                      Open on X
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </section>
 
         <section>
@@ -252,7 +295,8 @@ function Home({ darkMode, setDarkMode }) {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded border border-black/30 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black/85"
+                        className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
+                        style={{ border: "1px solid rgb(var(--text) / 0.35)", color: "rgb(var(--text))" }}
                       >
                         {tag}
                       </span>
