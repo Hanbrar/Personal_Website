@@ -2,7 +2,7 @@
   "blocks": [
     {
       "id": "status-2026-03-02-polyopus",
-      "date": "2026-03-03",
+      "date": "2026-03-01",
       "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
       "context": "Deployed",
       "url": "https://polyopus-production.up.railway.app/"
@@ -48,7 +48,7 @@
       "id": "blog-42a2bd39-5939-4f19-a062-5a5b4fe80f0a",
       "url": "https://x.com/ItsHB17/status/2025099762240766066",
       "title": "https://t.co/798SkQziPj",
-      "description": "",
+      "description": "LLMs are not easy to use",
       "author": "Hanryck Brar",
       "publishedAt": "",
       "image": "",
@@ -110,5 +110,5 @@
       "cta": "Visit DeepConverge"
     }
   ],
-  "updatedAt": "2026-03-02T06:59:55.240Z"
+  "updatedAt": "2026-03-02T08:53:56.815Z"
 }
