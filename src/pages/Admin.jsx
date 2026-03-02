@@ -15,6 +15,7 @@ function todayDate() {
 const EMPTY_CONTENT = {
   blocks: [],
   blogs: [],
+  featuredProjects: [],
   updatedAt: ""
 }
 
@@ -94,6 +95,14 @@ export default function Admin({ darkMode, setDarkMode }) {
     })
   }
 
+  function updateProject(index, key, value) {
+    setContent((prev) => {
+      const next = [...prev.featuredProjects]
+      next[index] = { ...next[index], [key]: value }
+      return { ...prev, featuredProjects: next }
+    })
+  }
+
   function moveItem(key, index, direction) {
     setContent((prev) => {
       const list = [...prev[key]]
@@ -121,7 +130,8 @@ export default function Admin({ darkMode, setDarkMode }) {
           id: createId("status"),
           date: todayDate(),
           title: "",
-          context: ""
+          context: "",
+          url: ""
         },
         ...prev.blocks
       ]
@@ -136,6 +146,7 @@ export default function Admin({ darkMode, setDarkMode }) {
           id: createId("blog"),
           url: "",
           title: "",
+          description: "",
           author: "",
           publishedAt: "",
           image: "",
@@ -143,6 +154,27 @@ export default function Admin({ darkMode, setDarkMode }) {
           addedAt: new Date().toISOString()
         },
         ...prev.blogs
+      ]
+    }))
+  }
+
+  function addProject() {
+    setContent((prev) => ({
+      ...prev,
+      featuredProjects: [
+        {
+          id: createId("project"),
+          title: "",
+          tagline: "",
+          href: "",
+          summary: "",
+          stack: [],
+          tags: [],
+          status: "Live",
+          date: "",
+          cta: "Visit Project"
+        },
+        ...prev.featuredProjects
       ]
     }))
   }
@@ -176,6 +208,7 @@ export default function Admin({ darkMode, setDarkMode }) {
             url: preview.url || url,
             title: preview.title || "",
             author: preview.author || "",
+            description: "",
             publishedAt: preview.publishedAt || "",
             image: preview.image || "",
             source: "x",
@@ -303,7 +336,7 @@ export default function Admin({ darkMode, setDarkMode }) {
             <div>
               <h1 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">Live Content Admin</h1>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                Edit status logs and X blog cards, then save to push directly to main.
+                Edit status logs, X blog cards, and featured projects, then save to push directly to main.
               </p>
             </div>
             <button type="button" onClick={handleSave} className="btn-primary" disabled={saving}>
@@ -351,6 +384,14 @@ export default function Admin({ darkMode, setDarkMode }) {
                       value={block.context}
                       onChange={(e) => updateBlock(idx, "context", e.target.value)}
                       placeholder="Context"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <input
+                      type="url"
+                      value={block.url || ""}
+                      onChange={(e) => updateBlock(idx, "url", e.target.value)}
+                      placeholder="Optional URL to share"
                       className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
                       style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
                     />
@@ -414,9 +455,17 @@ export default function Admin({ darkMode, setDarkMode }) {
                       type="text"
                       value={blog.title}
                       onChange={(e) => updateBlog(idx, "title", e.target.value)}
-                      placeholder="Card title"
+                      placeholder="Card title (editable)"
                       className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
                       style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <textarea
+                      value={blog.description || ""}
+                      onChange={(e) => updateBlog(idx, "description", e.target.value)}
+                      placeholder="What this blog is about"
+                      rows={3}
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))", resize: "vertical" }}
                     />
                     <input
                       type="text"
@@ -435,6 +484,111 @@ export default function Admin({ darkMode, setDarkMode }) {
                       Down
                     </button>
                     <button type="button" onClick={() => removeItem("blogs", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+
+        <section>
+          <article className="anime-card card-yellow rounded-[18px] p-5 md:p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="section-title text-2xl md:text-3xl">Featured Projects</h2>
+              <button type="button" onClick={addProject} className="btn-ghost" style={{ fontSize: "12px", padding: "8px 12px" }}>
+                Add Project
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {(content.featuredProjects || []).map((project, idx) => (
+                <div key={project.id || idx} className="rounded p-3" style={{ border: "1px solid rgb(var(--text) / 0.28)" }}>
+                  <div className="grid gap-2">
+                    <input
+                      type="text"
+                      value={project.title || ""}
+                      onChange={(e) => updateProject(idx, "title", e.target.value)}
+                      placeholder="Project title"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <input
+                      type="text"
+                      value={project.tagline || ""}
+                      onChange={(e) => updateProject(idx, "tagline", e.target.value)}
+                      placeholder="Tagline"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <input
+                      type="url"
+                      value={project.href || ""}
+                      onChange={(e) => updateProject(idx, "href", e.target.value)}
+                      placeholder="Project URL"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <textarea
+                      value={project.summary || ""}
+                      onChange={(e) => updateProject(idx, "summary", e.target.value)}
+                      placeholder="Project summary"
+                      rows={4}
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))", resize: "vertical" }}
+                    />
+                    <div className="grid gap-2 md:grid-cols-3">
+                      <input
+                        type="text"
+                        value={project.status || ""}
+                        onChange={(e) => updateProject(idx, "status", e.target.value)}
+                        placeholder="Status"
+                        className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                        style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                      />
+                      <input
+                        type="text"
+                        value={project.date || ""}
+                        onChange={(e) => updateProject(idx, "date", e.target.value)}
+                        placeholder="Date label"
+                        className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                        style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                      />
+                      <input
+                        type="text"
+                        value={project.cta || ""}
+                        onChange={(e) => updateProject(idx, "cta", e.target.value)}
+                        placeholder="Button text"
+                        className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                        style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      value={Array.isArray(project.stack) ? project.stack.join(", ") : ""}
+                      onChange={(e) => updateProject(idx, "stack", e.target.value.split(",").map((item) => item.trim()).filter(Boolean))}
+                      placeholder="Stack (comma separated)"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                    <input
+                      type="text"
+                      value={Array.isArray(project.tags) ? project.tags.join(", ") : ""}
+                      onChange={(e) => updateProject(idx, "tags", e.target.value.split(",").map((item) => item.trim()).filter(Boolean))}
+                      placeholder="Tags (comma separated)"
+                      className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                      style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                    />
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" onClick={() => moveItem("featuredProjects", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
+                      Up
+                    </button>
+                    <button type="button" onClick={() => moveItem("featuredProjects", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
+                      Down
+                    </button>
+                    <button type="button" onClick={() => removeItem("featuredProjects", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
                       Delete
                     </button>
                   </div>

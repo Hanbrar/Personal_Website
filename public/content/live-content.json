@@ -4,37 +4,43 @@
       "id": "status-2026-03-02-polyopus",
       "date": "2026-03-03",
       "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
-      "context": "Deployed"
+      "context": "Deployed",
+      "url": "https://polyopus-production.up.railway.app/"
     },
     {
       "id": "status-2026-02-22-york",
       "date": "2026-02-22",
       "title": "Building York and testing it out, an AI ads generator.",
-      "context": "In progress, not sure if it will be a product"
+      "context": "In progress, not sure if it will be a product",
+      "url": ""
     },
     {
       "id": "status-2026-02-15-gtc",
       "date": "2026-02-15",
       "title": "Entered NVIDIA GTC 2026 competition with deepconverge.ai",
-      "context": "Build"
+      "context": "Build",
+      "url": ""
     },
     {
       "id": "status-2026-02-16-rebrand",
       "date": "2026-02-16",
       "title": "Rebrand from Kangaroo to deepconverge.ai",
-      "context": "Brand"
+      "context": "Brand",
+      "url": ""
     },
     {
       "id": "status-2026-02-04-kangaroo",
       "date": "2026-02-04",
       "title": "Started Kangaroo multi-agentic debate platform",
-      "context": "Build"
+      "context": "Build",
+      "url": ""
     },
     {
       "id": "status-2024-09-09-ubc",
       "date": "2024-09-09",
       "title": "Started Electrical Engineering at UBC",
-      "context": "Education"
+      "context": "Education",
+      "url": ""
     }
   ],
   "blogs": [
@@ -42,11 +48,66 @@
       "id": "blog-42a2bd39-5939-4f19-a062-5a5b4fe80f0a",
       "url": "https://x.com/ItsHB17/status/2025099762240766066",
       "title": "https://t.co/798SkQziPj",
+      "description": "",
       "author": "Hanryck Brar",
       "publishedAt": "",
       "image": "",
       "source": "x",
       "addedAt": "2026-03-02T06:59:32.602Z"
+    }
+  ],
+  "featuredProjects": [
+    {
+      "id": "project-polyopus",
+      "title": "PolyOpus",
+      "tagline": "Autonomous AI Trading on Polymarket",
+      "href": "https://polyopus-production.up.railway.app/",
+      "summary": "Open experiment testing whether Claude can compound $200 to $2,000 through live sports prediction market trades. Every cycle is transparent: research, reasoning, execution, and live PnL are published on the public dashboard.",
+      "stack": [
+        "Claude Sonnet",
+        "Firecrawl",
+        "Polymarket CLOB and Gamma APIs",
+        "FastAPI and WebSocket",
+        "React 18, Tailwind CSS, Chart.js",
+        "SQLite",
+        "Docker and Railway"
+      ],
+      "tags": [
+        "Autonomous Agents",
+        "Prediction Markets",
+        "FastAPI",
+        "React",
+        "Railway"
+      ],
+      "status": "Deployed",
+      "date": "Mar 2026",
+      "cta": "View PolyOpus"
+    },
+    {
+      "id": "project-deepconverge",
+      "title": "DeepConverge",
+      "tagline": "Multi-Agent AI Debate Platform",
+      "href": "https://deepconverge.ai",
+      "summary": "Full-stack multi-agent debate platform with Advocate, Critic, and Judge agents streaming real-time reasoning. Includes waitlist access, debate history replay, PDF export, and a convergent thinking mode.",
+      "stack": [
+        "Next.js 14",
+        "NVIDIA Nemotron 30B",
+        "Supabase",
+        "PostgreSQL",
+        "SSE",
+        "Vercel"
+      ],
+      "tags": [
+        "Multi-Agent AI",
+        "Next.js",
+        "Supabase",
+        "PostgreSQL",
+        "SSE Streaming",
+        "Vercel"
+      ],
+      "status": "Live",
+      "date": "Feb 2026",
+      "cta": "Visit DeepConverge"
     }
   ],
   "updatedAt": "2026-03-02T06:59:55.240Z"

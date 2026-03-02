@@ -3,6 +3,21 @@ import { profileContent } from "../content/profileContent"
 
 const CONTENT_URL = "/content/live-content.json"
 
+function normalizeProject(item, i) {
+  return {
+    id: item?.id || `project-${i}`,
+    title: item?.title || "",
+    tagline: item?.tagline || "",
+    href: item?.href || "",
+    summary: item?.summary || "",
+    stack: Array.isArray(item?.stack) ? item.stack.filter(Boolean) : [],
+    tags: Array.isArray(item?.tags) ? item.tags.filter(Boolean) : [],
+    status: item?.status || "",
+    date: item?.date || "",
+    cta: item?.cta || "Visit Project"
+  }
+}
+
 function normalizeContent(input) {
   if (!input || typeof input !== "object") return null
 
@@ -12,7 +27,8 @@ function normalizeContent(input) {
           id: item?.id || `block-${i}`,
           date: item?.date || "",
           title: item?.title || "",
-          context: item?.context || ""
+          context: item?.context || "",
+          url: item?.url || ""
         }))
         .filter((item) => item.title)
     : []
@@ -23,6 +39,7 @@ function normalizeContent(input) {
           id: item?.id || `blog-${i}`,
           url: item?.url || "",
           title: item?.title || "",
+          description: item?.description || "",
           author: item?.author || "",
           publishedAt: item?.publishedAt || "",
           image: item?.image || "",
@@ -32,9 +49,14 @@ function normalizeContent(input) {
         .filter((item) => item.url && item.title)
     : []
 
+  const featuredProjects = Array.isArray(input.featuredProjects)
+    ? input.featuredProjects.map(normalizeProject).filter((item) => item.title && item.href)
+    : []
+
   return {
     blocks,
     blogs,
+    featuredProjects,
     updatedAt: input.updatedAt || ""
   }
 }
@@ -45,9 +67,11 @@ function fallbackContent() {
       id: item.id || `fallback-${i}`,
       date: item.date || "",
       title: item.title || "",
-      context: item.context || ""
+      context: item.context || "",
+      url: item.url || ""
     })),
     blogs: [],
+    featuredProjects: profileContent.featuredProjects.map(normalizeProject),
     updatedAt: ""
   }
 }

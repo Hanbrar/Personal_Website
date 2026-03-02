@@ -50,6 +50,9 @@ function App() {
 function Home({ darkMode, setDarkMode }) {
   const { content: liveContent } = useLiveContent()
   const latestBlogs = [...(liveContent.blogs || [])].slice(0, 3)
+  const featuredProjects = liveContent.featuredProjects?.length
+    ? liveContent.featuredProjects
+    : profileContent.featuredProjects
 
   return (
     <div className="relative overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
@@ -167,9 +170,9 @@ function Home({ darkMode, setDarkMode }) {
           </div>
 
           <div className="grid gap-5">
-            {profileContent.featuredProjects.map((project) => (
+            {featuredProjects.map((project) => (
               <article key={project.title} className="anime-card card-yellow overflow-hidden rounded-[18px]">
-                <div className="h-1.5 bg-black/90" />
+                <div className="h-1.5" style={{ background: "rgb(var(--text) / 0.9)" }} />
                 <div className="p-6 md:p-8">
                   <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                     <div className="flex-1">
@@ -197,7 +200,7 @@ function Home({ darkMode, setDarkMode }) {
                       <div className="mt-5">
                         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text))" }}>Tech stack</p>
                         <div className="mt-2 flex flex-wrap gap-2">
-                          {project.stack.map((tech) => (
+                          {(project.stack || []).map((tech) => (
                             <span key={tech} className="skill-chip">
                               {tech}
                             </span>
@@ -206,7 +209,7 @@ function Home({ darkMode, setDarkMode }) {
                       </div>
 
                       <div className="mt-5 flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
+                        {(project.tags || []).map((tag) => (
                           <span
                             key={tag}
                             className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
@@ -252,6 +255,11 @@ function Home({ darkMode, setDarkMode }) {
                   {blog.author ? (
                     <p className="mt-1 text-xs font-mono uppercase tracking-[0.12em]" style={{ color: "rgb(var(--text-soft))" }}>
                       {blog.author}
+                    </p>
+                  ) : null}
+                  {blog.description ? (
+                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                      {blog.description}
                     </p>
                   ) : null}
                   <div className="mt-4">

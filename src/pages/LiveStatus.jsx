@@ -82,6 +82,17 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
                     >
                       {block.context}
                     </p>
+                    {block.url ? (
+                      <a
+                        href={block.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-flex font-mono text-[10px] font-bold uppercase tracking-[0.15em]"
+                        style={{ color: "#00A878" }}
+                      >
+                        Open Link
+                      </a>
+                    ) : null}
                   </div>
                 </li>
               ))}
@@ -108,6 +119,11 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
                   {blog.author ? (
                     <p className="mt-1 text-xs font-mono uppercase tracking-[0.12em]" style={{ color: "rgb(var(--text-soft))" }}>
                       {blog.author}
+                    </p>
+                  ) : null}
+                  {blog.description ? (
+                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                      {blog.description}
                     </p>
                   ) : null}
                   <div className="mt-3">
