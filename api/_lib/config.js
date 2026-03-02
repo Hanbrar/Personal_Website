@@ -5,6 +5,9 @@ export function requiredEnv(name) {
 }
 
 export function getAppBaseUrl(req) {
+  if (process.env.APP_BASE_URL) {
+    return process.env.APP_BASE_URL.replace(/\/+$/, "")
+  }
   const proto = req.headers["x-forwarded-proto"] || "https"
   const host = req.headers["x-forwarded-host"] || req.headers.host
   if (!host) throw new Error("Unable to resolve host for callback URL")
