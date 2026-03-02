@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Routes, Route, Link } from "react-router-dom"
+import { Link, Route, Routes } from "react-router-dom"
 import { profileContent } from "./content/profileContent"
 import LiveStatus from "./pages/LiveStatus"
 
@@ -25,10 +25,10 @@ const contactIconMap = {
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window === "undefined") return true
+    if (typeof window === "undefined") return false
     const saved = window.localStorage.getItem(THEME_KEY)
     if (saved) return saved === "dark"
-    return true
+    return false
   })
 
   useEffect(() => {
@@ -47,55 +47,37 @@ function App() {
 function Home({ darkMode, setDarkMode }) {
   return (
     <div className="relative overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
-
-      {/* Background grid */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
-
-      {/* Ambient blobs */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-32 top-1/3 h-80 w-80 rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #00CFCF, transparent 70%)" }} />
-        <div className="absolute -right-28 top-1/4 h-80 w-80 rounded-full opacity-14"
-          style={{ background: "radial-gradient(circle, #0066FF, transparent 70%)" }} />
-        <div className="absolute bottom-0 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #A3D900, transparent 70%)" }} />
-      </div>
+      <div className="pointer-events-none fixed inset-0 -z-10 neo-grid opacity-90" />
 
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-7 md:gap-9">
-
-        {/* ──────────────── NAV ──────────────── */}
         <nav className="flex items-center justify-between">
-          <span className="font-mono text-xs font-bold tracking-[0.22em] uppercase" style={{ color: "rgb(var(--text-soft))" }}>
-            HB · 2026
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "rgb(var(--text-soft))" }}>
+            HB 2026
           </span>
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
-              Resume ↗
+              Resume
             </a>
           </div>
         </nav>
 
-        {/* ──────────────── HEADER ──────────────── */}
-        <header id="top" className="anime-card card-yellow rounded-[18px] overflow-hidden">
+        <header id="top" className="anime-card card-yellow overflow-hidden rounded-[18px]">
           <div className="stripe-overlay" />
           <div className="relative p-6 md:p-8">
-
-            {/* Dark mode toggle — top right */}
             <div className="absolute right-5 top-5 md:right-7 md:top-7">
               <button
                 type="button"
-                onClick={() => setDarkMode(d => !d)}
+                onClick={() => setDarkMode((d) => !d)}
                 className="btn-ghost"
                 style={{ fontSize: "12px", padding: "8px 16px" }}
                 aria-label="Toggle theme"
               >
-                {darkMode ? "☀ Light" : "☽ Dark"}
+                {darkMode ? "Use light" : "Use dark"}
               </button>
             </div>
 
-            {/* Identity block */}
             <div className="pr-32 md:pr-40">
               <h1
                 className="name-glitch font-display text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl"
@@ -106,14 +88,13 @@ function Home({ darkMode, setDarkMode }) {
               <p className="mt-3 font-display text-xl font-bold tracking-tight md:text-2xl">
                 {profileContent.title}
               </p>
-              <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "#00CFCF" }}>
+              <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "rgb(var(--text-soft))" }}>
                 {profileContent.subtitle}
               </p>
               <p className="mt-1 font-mono text-xs font-semibold tracking-wider" style={{ color: "rgb(var(--text-soft))" }}>
                 {profileContent.location}
               </p>
 
-              {/* Social links */}
               <div className="mt-5 flex flex-wrap gap-4">
                 {profileContent.contacts.map((contact) => (
                   <a
@@ -125,12 +106,11 @@ function Home({ darkMode, setDarkMode }) {
                     style={{ color: "rgb(var(--text-soft))" }}
                   >
                     {contactIconMap[contact.id]}
-                    {contact.label} ↗
+                    {contact.label}
                   </a>
                 ))}
               </div>
 
-              {/* Resume button */}
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
                   href="/Hanryck_Brar_Resume.pdf"
@@ -139,18 +119,15 @@ function Home({ darkMode, setDarkMode }) {
                   className="btn-primary"
                   style={{ fontSize: "12px", padding: "9px 18px" }}
                 >
-                  View Resume ↗
+                  View Resume
                 </a>
               </div>
             </div>
           </div>
         </header>
 
-        {/* ──────────────── WHO I AM + PROFILE IMAGE ──────────────── */}
         <section className="grid gap-6 md:grid-cols-2 md:gap-7">
-
-          {/* Who I am — left */}
-          <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8 flex flex-col justify-center">
+          <article id="about" className="anime-card card-lime flex flex-col justify-center rounded-[18px] p-6 md:p-8">
             <p className="section-kicker mb-3">About me</p>
             <h2 className="section-title">Who I am</h2>
             <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
@@ -163,7 +140,6 @@ function Home({ darkMode, setDarkMode }) {
             </div>
           </article>
 
-          {/* Profile image — right */}
           <div className="flex flex-col items-center justify-center gap-4">
             <div className="profile-frame w-full max-w-sm">
               <img
@@ -172,130 +148,121 @@ function Home({ darkMode, setDarkMode }) {
                 className="h-[20rem] w-full object-cover md:h-[30rem]"
               />
             </div>
-            <span
-              className="cyber-badge"
-              style={{ color: "#FFD84A", borderColor: "#FFD84A", background: "rgb(var(--ink) / 0.82)" }}
-            >
-              Product Design + Build
+            <span className="cyber-badge" style={{ color: "rgb(var(--text-soft))", borderColor: "rgb(var(--line-bold))" }}>
+              Product Design and Build
             </span>
           </div>
-
         </section>
 
-        {/* ──────────────── DEEPCONVERGE ──────────────── */}
         <section id="projects">
-          <article className="anime-card card-yellow rounded-[18px] overflow-hidden">
-            <div className="h-1.5" style={{ background: "#FFD84A" }} />
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+          <div className="mb-5">
+            <h2 className="section-title">Featured Projects</h2>
+          </div>
 
-                <div className="flex-1">
-                  <div className="mb-3 flex items-center gap-3">
-                    <div className="live-dot" />
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "#A3D900" }}>
-                      Live
-                    </span>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                      · {profileContent.mainProject.date}
-                    </span>
-                  </div>
+          <div className="grid gap-5">
+            {profileContent.featuredProjects.map((project) => (
+              <article key={project.title} className="anime-card card-yellow overflow-hidden rounded-[18px]">
+                <div className="h-1.5 bg-black/90" />
+                <div className="p-6 md:p-8">
+                  <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div className="flex-1">
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="live-dot" />
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black/80">
+                          {project.status}
+                        </span>
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                          {project.date}
+                        </span>
+                      </div>
 
-                  <h3 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                    {profileContent.mainProject.title}
-                  </h3>
-                  <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
-                    {profileContent.mainProject.tagline}
-                  </p>
+                      <h3 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+                        {project.title}
+                      </h3>
+                      <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
+                        {project.tagline}
+                      </p>
 
-                  <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-                    {profileContent.mainProject.summary}
-                  </p>
+                      <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+                        {project.summary}
+                      </p>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {profileContent.mainProject.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
-                        style={{ background: "rgb(255 216 74 / 0.12)", color: "#FFD84A" }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                      <div className="mt-5">
+                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-black/90">Tech stack</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {project.stack.map((tech) => (
+                            <span key={tech} className="skill-chip">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded border border-black/30 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black/85"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex-shrink-0">
+                      <a href={project.href} target="_blank" rel="noreferrer" className="btn-primary">
+                        {project.cta}
+                      </a>
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex-shrink-0">
-                  <a
-                    href={profileContent.mainProject.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-primary"
-                  >
-                    deepconverge.ai ↗
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          </article>
+              </article>
+            ))}
+          </div>
         </section>
 
-        {/* ──────────────── SCHOOL PROJECTS ──────────────── */}
         <section>
           <div className="mb-5">
             <h2 className="section-title">School Projects</h2>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
-            {profileContent.schoolProjects.map((project, i) => {
-              const scheme = i === 0
-                ? { card: "card-lime", color: "#A3D900", bg: "rgb(163 217 0  / 0.10)" }
-                : { card: "card-teal", color: "#00A878", bg: "rgb(0 168 120  / 0.10)" }
-
-              return (
-                <article
-                  key={project.title}
-                  className={`anime-card ${scheme.card} flex flex-col overflow-hidden rounded-[14px]`}
-                >
-                  <div className="h-1.5" style={{ background: scheme.color }} />
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
-                        <p className="mt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: scheme.color }}>
-                          {project.tagline}
-                        </p>
-                      </div>
-                      <span
-                        className="cyber-badge flex-shrink-0"
-                        style={{ color: scheme.color, borderColor: scheme.color, background: scheme.bg }}
-                      >
-                        {project.status}
-                      </span>
+            {profileContent.schoolProjects.map((project) => (
+              <article key={project.title} className="anime-card card-lime flex flex-col overflow-hidden rounded-[14px]">
+                <div className="h-1.5 bg-black/90" />
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-display text-base font-bold leading-snug md:text-lg">{project.title}</h3>
+                      <p className="mt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgb(var(--text-soft))" }}>
+                        {project.tagline}
+                      </p>
                     </div>
-
-                    <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                      {project.summary}
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em]"
-                          style={{ background: scheme.bg, color: scheme.color }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <span className="cyber-badge flex-shrink-0" style={{ color: "rgb(var(--text-soft))", borderColor: "rgb(var(--line-bold))" }}>
+                      {project.status}
+                    </span>
                   </div>
-                </article>
-              )
-            })}
+
+                  <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                    {project.summary}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded border border-black/30 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black/85"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
-
       </main>
     </div>
   )

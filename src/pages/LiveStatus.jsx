@@ -4,35 +4,34 @@ import { profileContent } from "../content/profileContent"
 export default function LiveStatus({ darkMode, setDarkMode }) {
   return (
     <div className="relative min-h-screen overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
-
-      {/* Background */}
       <div className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[48rem] neo-grid opacity-60" />
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-32 top-1/3 h-80 w-80 rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #00A878, transparent 70%)" }} />
-        <div className="absolute -right-28 top-1/4 h-72 w-72 rounded-full opacity-14"
-          style={{ background: "radial-gradient(circle, #00CFCF, transparent 70%)" }} />
+        <div
+          className="absolute -left-32 top-1/3 h-80 w-80 rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #00A878, transparent 70%)" }}
+        />
+        <div
+          className="absolute -right-28 top-1/4 h-72 w-72 rounded-full opacity-14"
+          style={{ background: "radial-gradient(circle, #00CFCF, transparent 70%)" }}
+        />
       </div>
 
       <main className="mx-auto flex w-full max-w-2xl flex-col gap-8">
-
-        {/* Nav */}
         <nav className="flex items-center justify-between">
-          <Link to="/" className="nav-link">← Home</Link>
+          <Link to="/" className="nav-link">Home</Link>
           <button
             type="button"
-            onClick={() => setDarkMode(d => !d)}
+            onClick={() => setDarkMode((d) => !d)}
             className="btn-ghost"
             style={{ fontSize: "12px", padding: "8px 16px" }}
             aria-label="Toggle theme"
           >
-            {darkMode ? "☀ Light" : "☽ Dark"}
+            {darkMode ? "Light" : "Dark"}
           </button>
         </nav>
 
-        {/* Heading */}
         <div>
-          <div className="flex items-center gap-3 mb-3">
+          <div className="mb-3 flex items-center gap-3">
             <div className="rec-dot" />
             <h1 className="font-display text-4xl font-extrabold tracking-tight md:text-5xl">
               Live Status
@@ -43,7 +42,6 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
           </p>
         </div>
 
-        {/* Feed */}
         <div className="feed-shell">
           <div className="feed-header-bar">
             <div className="feed-dot" />
@@ -63,7 +61,7 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
               {profileContent.blocks.map((block) => (
                 <li
                   key={`${block.date}-${block.title}`}
-                  className="feed-row grid gap-3 px-5 py-5 sm:grid-cols-[100px_1fr] sm:gap-6"
+                  className="feed-row grid gap-3 px-5 py-5 sm:grid-cols-[110px_1fr] sm:gap-6"
                 >
                   <span
                     className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]"
@@ -86,13 +84,11 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
           </div>
         </div>
 
-        {/* Back */}
         <div className="text-center">
           <Link to="/" className="btn-ghost">
-            ← Back to Home
+            Back to Home
           </Link>
         </div>
-
       </main>
     </div>
   )
