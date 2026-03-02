@@ -25,6 +25,27 @@ const contactIconMap = {
   )
 }
 
+function isUrlLikeTitle(value) {
+  const text = (value || "").trim()
+  if (!text) return false
+  return /^(https?:\/\/|www\.|x\.com\/|twitter\.com\/|t\.co\/)/i.test(text)
+}
+
+function blogHeadline(blog) {
+  const title = (blog?.title || "").trim()
+  const description = (blog?.description || "").trim()
+  if (title && !isUrlLikeTitle(title)) return title
+  if (description) return description
+  return "X Post"
+}
+
+function blogSubline(blog) {
+  const title = (blog?.title || "").trim()
+  const description = (blog?.description || "").trim()
+  if (title && !isUrlLikeTitle(title)) return description
+  return ""
+}
+
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") return false
@@ -251,15 +272,17 @@ function Home({ darkMode, setDarkMode }) {
                   <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgb(var(--text-soft))" }}>
                     X Blog
                   </span>
-                  <h3 className="mt-2 font-display text-lg font-bold leading-snug">{blog.title}</h3>
+                  <h3 className="mt-2 font-display text-2xl font-extrabold leading-tight tracking-tight md:text-[1.7rem]">
+                    {blogHeadline(blog)}
+                  </h3>
                   {blog.author ? (
                     <p className="mt-1 text-xs font-mono uppercase tracking-[0.12em]" style={{ color: "rgb(var(--text-soft))" }}>
                       {blog.author}
                     </p>
                   ) : null}
-                  {blog.description ? (
+                  {blogSubline(blog) ? (
                     <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                      {blog.description}
+                      {blogSubline(blog)}
                     </p>
                   ) : null}
                   <div className="mt-4">
