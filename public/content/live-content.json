@@ -59,6 +59,17 @@
   ],
   "blogs": [
     {
+      "id": "blog-75ca0dee-da3f-47af-a815-78fe71f0020b",
+      "url": "https://x.com/ItsHB17/status/2030786421146149178",
+      "title": "https://t.co/O2lviATzWo",
+      "description": "https://x.com/ItsHB17/status/2030786421146149178",
+      "author": "Hanryck Brar",
+      "publishedAt": "",
+      "image": "",
+      "source": "x",
+      "addedAt": "2026-03-09T01:06:35.748Z"
+    },
+    {
       "id": "blog-42a2bd39-5939-4f19-a062-5a5b4fe80f0a",
       "url": "https://x.com/ItsHB17/status/2025099762240766066",
       "title": "https://t.co/798SkQziPj",
@@ -124,5 +135,5 @@
       "cta": "Visit DeepConverge"
     }
   ],
-  "updatedAt": "2026-03-08T08:56:58.838Z"
+  "updatedAt": "2026-03-09T01:07:05.636Z"
 }
