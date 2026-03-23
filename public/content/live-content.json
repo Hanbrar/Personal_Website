@@ -5,6 +5,7 @@
       "date": "2026-03-16",
       "title": "AFTERWORLDS.AI",
       "context": "Uploads your Consciousness",
+      "extended": "This was an idea I had. I did end up building it out but it was just kind of creepy because of how similar the AI behaved to how I am. So I decided to for go the project completely. If there's interest, then I definitely will be willing to build it out. Please just DM me on X. (repo is private for now)",
       "url": ""
     },
     {
@@ -12,6 +13,7 @@
       "date": "2026-03-08",
       "title": "SuperFlowAI",
       "context": "World's best free Open Source AI Diction Tool",
+      "extended": "",
       "url": "https://superflow-ai.vercel.app/"
     },
     {
@@ -19,6 +21,7 @@
       "date": "2026-03-02",
       "title": "T.ai: Allowing users to easily move from one LLM to another",
       "context": "Idea",
+      "extended": "",
       "url": ""
     },
     {
@@ -26,6 +29,7 @@
       "date": "2026-03-01",
       "title": "Launched PolyOpus, a live AI trading experiment on Polymarket.",
       "context": "Deployed",
+      "extended": "",
       "url": "https://polyopus-production.up.railway.app/"
     },
     {
@@ -33,6 +37,7 @@
       "date": "2026-02-22",
       "title": "Building York and testing it out, an AI ads generator.",
       "context": "In progress, not sure if it will be a product",
+      "extended": "",
       "url": ""
     },
     {
@@ -40,6 +45,7 @@
       "date": "2026-02-15",
       "title": "Entered NVIDIA GTC 2026 competition with deepconverge.ai",
       "context": "Build",
+      "extended": "",
       "url": ""
     },
     {
@@ -47,6 +53,7 @@
       "date": "2026-02-16",
       "title": "Rebrand from Kangaroo to deepconverge.ai",
       "context": "Brand",
+      "extended": "",
       "url": ""
     },
     {
@@ -54,6 +61,7 @@
       "date": "2026-02-04",
       "title": "Started Kangaroo multi-agentic debate platform",
       "context": "Build",
+      "extended": "",
       "url": ""
     },
     {
@@ -61,6 +69,7 @@
       "date": "2024-09-09",
       "title": "Started Electrical Engineering at UBC",
       "context": "Education",
+      "extended": "",
       "url": ""
     }
   ],
@@ -100,6 +109,33 @@
     }
   ],
   "featuredProjects": [
+    {
+      "id": "project-04192e79-b4ad-41c4-96d1-14fea9574de7",
+      "title": "SuperflowAI",
+      "tagline": "Free Open Source Windows voice dictation with instant auto paste",
+      "href": "https://superflow-ai.vercel.app/",
+      "summary": "Super Flow is a free, open source Windows voice dictation app for fast, seamless typing. Hold Ctrl + Alt + Space to record, release to transcribe and auto paste at the cursor. It includes mic selection, toggle or hold modes, multiple recorder views, session transcripts with copy and PDF export, and automatic updates via GitHub.",
+      "stack": [
+        "Python",
+        "Tkinter",
+        "faster-whisper",
+        "sounddevice",
+        "keyboard",
+        "pyperclip",
+        "reportlab",
+        "vercel"
+      ],
+      "tags": [
+        "AI",
+        "Voice",
+        "Productivity",
+        "Open Source",
+        "Windows"
+      ],
+      "status": "Live",
+      "date": "Mar 2026",
+      "cta": "Visit Project"
+    },
     {
       "id": "project-polyopus",
       "title": "PolyOpus",
@@ -153,5 +189,6 @@
       "cta": "Visit DeepConverge"
     }
   ],
-  "updatedAt": "2026-03-16T02:57:59.643Z"
+  "photos": [],
+  "updatedAt": "2026-03-23T19:25:27.155Z"
 }
