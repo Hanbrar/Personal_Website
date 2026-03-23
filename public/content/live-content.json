@@ -5,7 +5,7 @@
       "date": "2026-03-23",
       "title": "Custom X For You feed",
       "context": "Idea",
-      "extended": "A Chrome extension that overrides X’s “For You” feed using user-defined intent. This idea came from the fact that on X, I primarily want to see AI news, but I'm seeing other information that I'm not interested in seeing. This project",
+      "extended": "A Chrome extension that overrides X’s “For You” feed using user-defined intent. This idea came from the fact that on X, I primarily want to see AI news, but I'm seeing other information that I'm not interested in seeing. This project will be my main focus for the coming weeks.",
       "url": ""
     },
     {
@@ -206,5 +206,5 @@
       "date": "2026-03-21"
     }
   ],
-  "updatedAt": "2026-03-23T19:50:17.049Z"
+  "updatedAt": "2026-03-23T19:54:00.257Z"
 }
