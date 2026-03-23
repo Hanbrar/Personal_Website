@@ -189,6 +189,14 @@
       "cta": "Visit DeepConverge"
     }
   ],
-  "photos": [],
-  "updatedAt": "2026-03-23T19:25:27.155Z"
+  "photos": [
+    {
+      "id": "photo-52ad130d-1339-4925-9e0f-6955f7b9800a",
+      "filename": "photo-1774294282453.jpeg",
+      "caption": "One breath at a time.",
+      "description": "Queen Elizabeth Park, Vancouver",
+      "date": "2026-03-21"
+    }
+  ],
+  "updatedAt": "2026-03-23T19:31:30.666Z"
 }
