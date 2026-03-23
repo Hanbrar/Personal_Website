@@ -1,6 +1,14 @@
 {
   "blocks": [
     {
+      "id": "status-652970e7-b6f3-4356-815b-172099c3c74e",
+      "date": "2026-03-23",
+      "title": "Custom X For You feed",
+      "context": "Idea",
+      "extended": "A Chrome extension that overrides X’s “For You” feed using user-defined intent. This idea came from the fact that on X, I primarily want to see AI news, but I'm seeing other information that I'm not interested in seeing. This project",
+      "url": ""
+    },
+    {
       "id": "status-fd6fbe72-8a5b-413e-89f5-58bf6c1f9391",
       "date": "2026-03-16",
       "title": "AFTERWORLDS.AI",
@@ -46,7 +54,7 @@
       "title": "Entered NVIDIA GTC 2026 competition with deepconverge.ai",
       "context": "Build",
       "extended": "",
-      "url": ""
+      "url": "https://www.deepconverge.ai/"
     },
     {
       "id": "status-2026-02-16-rebrand",
@@ -54,7 +62,7 @@
       "title": "Rebrand from Kangaroo to deepconverge.ai",
       "context": "Brand",
       "extended": "",
-      "url": ""
+      "url": "https://www.deepconverge.ai/"
     },
     {
       "id": "status-2026-02-04-kangaroo",
@@ -198,5 +206,5 @@
       "date": "2026-03-21"
     }
   ],
-  "updatedAt": "2026-03-23T19:31:30.666Z"
+  "updatedAt": "2026-03-23T19:50:17.049Z"
 }
