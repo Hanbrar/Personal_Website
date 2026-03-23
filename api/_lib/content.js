@@ -63,6 +63,7 @@ export function normalizeContentPayload(input) {
             date: sanitizeDate(item?.date),
             title: sanitizeText(item?.title, 240),
             context: sanitizeText(item?.context, 160),
+            extended: sanitizeText(item?.extended, 2000),
             url: isHttpUrl(url) ? url : ""
           }
         })
@@ -91,10 +92,23 @@ export function normalizeContentPayload(input) {
         .filter((item) => item.title && item.href)
     : []
 
+  const photos = Array.isArray(source.photos)
+    ? source.photos
+        .map((item) => ({
+          id: sanitizeText(item?.id, 120) || makeId("photo"),
+          filename: sanitizeText(item?.filename, 120),
+          caption: sanitizeText(item?.caption, 240),
+          description: sanitizeText(item?.description, 2000),
+          date: sanitizeDate(item?.date)
+        }))
+        .filter((item) => item.filename)
+    : []
+
   return {
     blocks,
     blogs,
     featuredProjects,
+    photos,
     updatedAt: new Date().toISOString()
   }
 }

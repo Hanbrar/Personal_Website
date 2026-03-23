@@ -16,6 +16,7 @@ const EMPTY_CONTENT = {
   blocks: [],
   blogs: [],
   featuredProjects: [],
+  photos: [],
   updatedAt: ""
 }
 
@@ -30,6 +31,19 @@ export default function Admin({ darkMode, setDarkMode }) {
   const [saving, setSaving] = useState(false)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [blogUrlDraft, setBlogUrlDraft] = useState("")
+
+  // Stack/tags draft inputs (raw strings while user is typing)
+  const [draftInputs, setDraftInputs] = useState({})
+
+  // Profile picture upload
+  const [profileFile, setProfileFile] = useState(null)
+  const [profilePreview, setProfilePreview] = useState(null)
+  const [profileUploading, setProfileUploading] = useState(false)
+  const [profileUploadMsg, setProfileUploadMsg] = useState("")
+
+  // Photo file pickers keyed by photo id
+  const [photoFiles, setPhotoFiles] = useState({})
+  const [photoUploading, setPhotoUploading] = useState({})
 
   const oauthError = useMemo(() => {
     if (typeof window === "undefined") return ""
@@ -63,7 +77,7 @@ export default function Admin({ darkMode, setDarkMode }) {
         setAuthenticated(true)
         setUsername(json.username || "")
         setSha(json.sha || "")
-        setContent(json.content || EMPTY_CONTENT)
+        setContent({ ...EMPTY_CONTENT, ...(json.content || {}) })
         setLoading(false)
       } catch (err) {
         if (!active) return
@@ -74,9 +88,7 @@ export default function Admin({ darkMode, setDarkMode }) {
 
     loadAdmin()
 
-    return () => {
-      active = false
-    }
+    return () => { active = false }
   }, [])
 
   function updateBlock(index, key, value) {
@@ -100,6 +112,14 @@ export default function Admin({ darkMode, setDarkMode }) {
       const next = [...prev.featuredProjects]
       next[index] = { ...next[index], [key]: value }
       return { ...prev, featuredProjects: next }
+    })
+  }
+
+  function updatePhoto(index, key, value) {
+    setContent((prev) => {
+      const next = [...(prev.photos || [])]
+      next[index] = { ...next[index], [key]: value }
+      return { ...prev, photos: next }
     })
   }
 
@@ -131,6 +151,7 @@ export default function Admin({ darkMode, setDarkMode }) {
           date: todayDate(),
           title: "",
           context: "",
+          extended: "",
           url: ""
         },
         ...prev.blocks
@@ -175,6 +196,22 @@ export default function Admin({ darkMode, setDarkMode }) {
           cta: "Visit Project"
         },
         ...prev.featuredProjects
+      ]
+    }))
+  }
+
+  function addPhoto() {
+    setContent((prev) => ({
+      ...prev,
+      photos: [
+        {
+          id: createId("photo"),
+          filename: "",
+          caption: "",
+          description: "",
+          date: todayDate()
+        },
+        ...(prev.photos || [])
       ]
     }))
   }
@@ -235,16 +272,13 @@ export default function Admin({ darkMode, setDarkMode }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          sha,
-          content
-        })
+        body: JSON.stringify({ sha, content })
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || "Save failed")
 
       setSha(json.sha || "")
-      setContent(json.content || content)
+      setContent({ ...EMPTY_CONTENT, ...(json.content || content) })
       setStatusMessage(`Saved and pushed to main (${json.commitSha?.slice(0, 7) || "commit"}).`)
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : "Save failed")
@@ -255,14 +289,93 @@ export default function Admin({ darkMode, setDarkMode }) {
 
   async function handleLogout() {
     try {
-      await fetch("/api/auth/github/logout", {
-        method: "POST",
-        credentials: "include"
-      })
+      await fetch("/api/auth/github/logout", { method: "POST", credentials: "include" })
       window.location.href = "/admin"
     } catch {
       window.location.href = "/admin"
     }
+  }
+
+  // Profile picture upload
+  function handleProfileFileChange(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setProfileFile(file)
+    setProfilePreview(URL.createObjectURL(file))
+    setProfileUploadMsg("")
+  }
+
+  async function handleProfileUpload() {
+    if (!profileFile) return
+    setProfileUploading(true)
+    setProfileUploadMsg("")
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      const base64 = e.target.result.split(",")[1]
+      try {
+        const res = await fetch("/api/admin/upload-file", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            path: "public/profile.jpg",
+            base64,
+            message: "Update profile picture"
+          })
+        })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || "Upload failed")
+        setProfileUploadMsg("Profile picture uploaded! It will be live after the next deployment.")
+        setProfileFile(null)
+      } catch (err) {
+        setProfileUploadMsg(err instanceof Error ? err.message : "Upload failed")
+      } finally {
+        setProfileUploading(false)
+      }
+    }
+    reader.readAsDataURL(profileFile)
+  }
+
+  // Photo file handling
+  function handlePhotoFileChange(photoId, e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setPhotoFiles((prev) => ({ ...prev, [photoId]: { file, previewUrl: URL.createObjectURL(file) } }))
+  }
+
+  async function handlePhotoUpload(photoId, photoIdx) {
+    const fileInfo = photoFiles[photoId]
+    if (!fileInfo) return
+    setPhotoUploading((prev) => ({ ...prev, [photoId]: true }))
+    setErrorMessage("")
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      const base64 = e.target.result.split(",")[1]
+      const ext = fileInfo.file.name.split(".").pop().toLowerCase() || "jpg"
+      const filename = `photo-${Date.now()}.${ext}`
+      try {
+        const res = await fetch("/api/admin/upload-file", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            path: `public/photos/${filename}`,
+            base64,
+            message: `Upload photo ${filename}`
+          })
+        })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || "Upload failed")
+        updatePhoto(photoIdx, "filename", filename)
+        setStatusMessage(`Photo uploaded. Click Save and Publish to save metadata.`)
+        setPhotoFiles((prev) => { const next = { ...prev }; delete next[photoId]; return next })
+      } catch (err) {
+        setErrorMessage(err instanceof Error ? err.message : "Photo upload failed")
+      } finally {
+        setPhotoUploading((prev) => ({ ...prev, [photoId]: false }))
+      }
+    }
+    reader.readAsDataURL(fileInfo.file)
   }
 
   if (loading) {
@@ -320,6 +433,7 @@ export default function Admin({ darkMode, setDarkMode }) {
           <div className="flex items-center gap-2">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
+            <Link to="/photos" className="nav-link">Photos</Link>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: "rgb(var(--text-soft))" }}>
@@ -331,12 +445,13 @@ export default function Admin({ darkMode, setDarkMode }) {
           </div>
         </nav>
 
+        {/* Header / Save */}
         <article className="anime-card card-yellow rounded-[18px] p-6 md:p-8">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">Live Content Admin</h1>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
-                Edit status logs, X blog cards, and featured projects, then save to push directly to main.
+                Edit status logs, X blog cards, featured projects, and photos, then save to push directly to main.
               </p>
             </div>
             <button type="button" onClick={handleSave} className="btn-primary" disabled={saving}>
@@ -351,7 +466,47 @@ export default function Admin({ darkMode, setDarkMode }) {
           ) : null}
         </article>
 
+        {/* Profile Picture */}
+        <article className="anime-card card-cyan rounded-[18px] p-5 md:p-6">
+          <h2 className="section-title mb-4 text-2xl md:text-3xl">Profile Picture</h2>
+          <p className="mb-4 text-sm" style={{ color: "rgb(var(--text-soft))" }}>
+            Pick a new profile picture from your computer. It replaces the current one.
+          </p>
+          <div className="flex flex-wrap items-start gap-5">
+            {profilePreview ? (
+              <img src={profilePreview} alt="Preview" className="h-32 w-32 rounded-lg object-cover" style={{ border: "1px solid rgb(var(--text) / 0.2)" }} />
+            ) : (
+              <img src="/profile.jpg" alt="Current profile" className="h-32 w-32 rounded-lg object-cover" style={{ border: "1px solid rgb(var(--text) / 0.2)" }} />
+            )}
+            <div className="flex flex-col gap-3">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfileFileChange}
+                className="text-sm"
+                style={{ color: "rgb(var(--text))" }}
+              />
+              <button
+                type="button"
+                onClick={handleProfileUpload}
+                className="btn-primary"
+                disabled={!profileFile || profileUploading}
+                style={{ width: "fit-content" }}
+              >
+                {profileUploading ? "Uploading..." : "Upload Profile Picture"}
+              </button>
+              {profileUploadMsg ? (
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.12em]" style={{ color: profileUploadMsg.includes("failed") || profileUploadMsg.includes("failed") ? "rgb(239 68 68)" : "rgb(34 197 94)" }}>
+                  {profileUploadMsg}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </article>
+
+        {/* Live Status + Blogs */}
         <section className="grid gap-6 xl:grid-cols-2">
+          {/* Live Status Entries */}
           <article className="anime-card card-lime rounded-[18px] p-5 md:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="section-title text-2xl md:text-3xl">Live Status Entries</h2>
@@ -387,6 +542,16 @@ export default function Admin({ darkMode, setDarkMode }) {
                       className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
                       style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
                     />
+                    {block.extended !== undefined && block.extended !== null && (
+                      <textarea
+                        value={block.extended}
+                        onChange={(e) => updateBlock(idx, "extended", e.target.value)}
+                        placeholder="Extended notes — write more in depth about what's going on..."
+                        rows={4}
+                        className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                        style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))", resize: "vertical" }}
+                      />
+                    )}
                     <input
                       type="url"
                       value={block.url || ""}
@@ -397,21 +562,24 @@ export default function Admin({ darkMode, setDarkMode }) {
                     />
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <button type="button" onClick={() => moveItem("blocks", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Up
+                    <button type="button" onClick={() => moveItem("blocks", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Up</button>
+                    <button type="button" onClick={() => moveItem("blocks", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Down</button>
+                    <button
+                      type="button"
+                      onClick={() => updateBlock(idx, "extended", block.extended !== undefined && block.extended !== null ? null : "")}
+                      className="btn-ghost"
+                      style={{ fontSize: "11px", padding: "6px 10px" }}
+                    >
+                      {block.extended !== undefined && block.extended !== null ? "Remove Extended" : "Extended"}
                     </button>
-                    <button type="button" onClick={() => moveItem("blocks", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Down
-                    </button>
-                    <button type="button" onClick={() => removeItem("blocks", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Delete
-                    </button>
+                    <button type="button" onClick={() => removeItem("blocks", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Delete</button>
                   </div>
                 </div>
               ))}
             </div>
           </article>
 
+          {/* Blog Cards */}
           <article className="anime-card card-teal rounded-[18px] p-5 md:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="section-title text-2xl md:text-3xl">Blog Cards (X)</h2>
@@ -477,15 +645,9 @@ export default function Admin({ darkMode, setDarkMode }) {
                     />
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <button type="button" onClick={() => moveItem("blogs", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Up
-                    </button>
-                    <button type="button" onClick={() => moveItem("blogs", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Down
-                    </button>
-                    <button type="button" onClick={() => removeItem("blogs", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Delete
-                    </button>
+                    <button type="button" onClick={() => moveItem("blogs", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Up</button>
+                    <button type="button" onClick={() => moveItem("blogs", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Down</button>
+                    <button type="button" onClick={() => removeItem("blogs", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Delete</button>
                   </div>
                 </div>
               ))}
@@ -493,6 +655,7 @@ export default function Admin({ darkMode, setDarkMode }) {
           </article>
         </section>
 
+        {/* Featured Projects */}
         <section>
           <article className="anime-card card-yellow rounded-[18px] p-5 md:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -564,36 +727,134 @@ export default function Admin({ darkMode, setDarkMode }) {
                         style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
                       />
                     </div>
+                    {/* Stack — draft input so commas work while typing */}
                     <input
                       type="text"
-                      value={Array.isArray(project.stack) ? project.stack.join(", ") : ""}
-                      onChange={(e) => updateProject(idx, "stack", e.target.value.split(",").map((item) => item.trim()).filter(Boolean))}
-                      placeholder="Stack (comma separated)"
+                      value={draftInputs[`${project.id}-stack`] ?? (Array.isArray(project.stack) ? project.stack.join(", ") : "")}
+                      onChange={(e) => setDraftInputs((prev) => ({ ...prev, [`${project.id}-stack`]: e.target.value }))}
+                      onBlur={(e) => {
+                        updateProject(idx, "stack", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))
+                        setDraftInputs((prev) => { const next = { ...prev }; delete next[`${project.id}-stack`]; return next })
+                      }}
+                      placeholder="Stack (comma separated: React, Node, Postgres)"
                       className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
                       style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
                     />
+                    {/* Tags — same draft approach */}
                     <input
                       type="text"
-                      value={Array.isArray(project.tags) ? project.tags.join(", ") : ""}
-                      onChange={(e) => updateProject(idx, "tags", e.target.value.split(",").map((item) => item.trim()).filter(Boolean))}
-                      placeholder="Tags (comma separated)"
+                      value={draftInputs[`${project.id}-tags`] ?? (Array.isArray(project.tags) ? project.tags.join(", ") : "")}
+                      onChange={(e) => setDraftInputs((prev) => ({ ...prev, [`${project.id}-tags`]: e.target.value }))}
+                      onBlur={(e) => {
+                        updateProject(idx, "tags", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))
+                        setDraftInputs((prev) => { const next = { ...prev }; delete next[`${project.id}-tags`]; return next })
+                      }}
+                      placeholder="Tags (comma separated: AI, SaaS, React)"
                       className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
                       style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
                     />
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <button type="button" onClick={() => moveItem("featuredProjects", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Up
-                    </button>
-                    <button type="button" onClick={() => moveItem("featuredProjects", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Down
-                    </button>
-                    <button type="button" onClick={() => removeItem("featuredProjects", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>
-                      Delete
-                    </button>
+                    <button type="button" onClick={() => moveItem("featuredProjects", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Up</button>
+                    <button type="button" onClick={() => moveItem("featuredProjects", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Down</button>
+                    <button type="button" onClick={() => removeItem("featuredProjects", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Delete</button>
                   </div>
                 </div>
               ))}
+            </div>
+          </article>
+        </section>
+
+        {/* Photos */}
+        <section>
+          <article className="anime-card card-lime rounded-[18px] p-5 md:p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="section-title text-2xl md:text-3xl">Photos</h2>
+              <button type="button" onClick={addPhoto} className="btn-ghost" style={{ fontSize: "12px", padding: "8px 12px" }}>
+                Add Photo
+              </button>
+            </div>
+            <p className="mb-4 text-sm" style={{ color: "rgb(var(--text-soft))" }}>
+              Upload photos from your computer. Pick a file, fill in the details, click Upload Photo, then Save and Publish.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              {(content.photos || []).map((photo, idx) => {
+                const fileInfo = photoFiles[photo.id]
+                const previewSrc = fileInfo?.previewUrl || (photo.filename ? `/photos/${photo.filename}` : null)
+                return (
+                  <div key={photo.id} className="rounded p-3" style={{ border: "1px solid rgb(var(--text) / 0.28)" }}>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      {/* Preview */}
+                      <div className="flex-shrink-0">
+                        {previewSrc ? (
+                          <img src={previewSrc} alt="Photo preview" className="h-24 w-24 rounded object-cover" style={{ border: "1px solid rgb(var(--text) / 0.2)" }} />
+                        ) : (
+                          <div className="flex h-24 w-24 items-center justify-center rounded" style={{ border: "1px solid rgb(var(--text) / 0.2)", color: "rgb(var(--text-soft))" }}>
+                            <span className="font-mono text-[9px] uppercase tracking-widest">No image</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Fields */}
+                      <div className="flex flex-1 flex-col gap-2">
+                        {photo.filename ? (
+                          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "#00A878" }}>
+                            Uploaded: {photo.filename}
+                          </p>
+                        ) : (
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handlePhotoFileChange(photo.id, e)}
+                              className="text-sm flex-1"
+                              style={{ color: "rgb(var(--text))" }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handlePhotoUpload(photo.id, idx)}
+                              className="btn-primary"
+                              disabled={!fileInfo || photoUploading[photo.id]}
+                              style={{ whiteSpace: "nowrap" }}
+                            >
+                              {photoUploading[photo.id] ? "Uploading..." : "Upload Photo"}
+                            </button>
+                          </div>
+                        )}
+                        <input
+                          type="text"
+                          value={photo.caption || ""}
+                          onChange={(e) => updatePhoto(idx, "caption", e.target.value)}
+                          placeholder="Caption (shown in grid)"
+                          className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                          style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                        />
+                        <textarea
+                          value={photo.description || ""}
+                          onChange={(e) => updatePhoto(idx, "description", e.target.value)}
+                          placeholder="Description (shown when user clicks)"
+                          rows={3}
+                          className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                          style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))", resize: "vertical" }}
+                        />
+                        <input
+                          type="date"
+                          value={photo.date || ""}
+                          onChange={(e) => updatePhoto(idx, "date", e.target.value)}
+                          className="w-full rounded bg-transparent px-2 py-1.5 text-sm"
+                          style={{ border: "1px solid rgb(var(--text) / 0.32)", color: "rgb(var(--text))" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button type="button" onClick={() => moveItem("photos", idx, -1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Up</button>
+                      <button type="button" onClick={() => moveItem("photos", idx, 1)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Down</button>
+                      <button type="button" onClick={() => removeItem("photos", idx)} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 10px" }}>Delete</button>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </article>
         </section>

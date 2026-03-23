@@ -3,6 +3,7 @@ import { Link, Route, Routes } from "react-router-dom"
 import { profileContent } from "./content/profileContent"
 import LiveStatus from "./pages/LiveStatus"
 import Admin from "./pages/Admin"
+import Photos from "./pages/Photos"
 import { useLiveContent } from "./hooks/useLiveContent"
 
 const THEME_KEY = "hb-theme"
@@ -63,6 +64,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
       <Route path="/live" element={<LiveStatus darkMode={darkMode} setDarkMode={setDarkMode} />} />
+      <Route path="/photos" element={<Photos darkMode={darkMode} setDarkMode={setDarkMode} />} />
       <Route path="/admin" element={<Admin darkMode={darkMode} setDarkMode={setDarkMode} />} />
     </Routes>
   )
@@ -87,6 +89,7 @@ function Home({ darkMode, setDarkMode }) {
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
+            <Link to="/photos" className="nav-link">Photos</Link>
             <Link to="/admin" className="nav-link">Admin</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">
               Resume

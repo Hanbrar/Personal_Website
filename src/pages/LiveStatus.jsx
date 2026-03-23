@@ -103,6 +103,11 @@ export default function LiveStatus({ darkMode, setDarkMode }) {
                     >
                       {block.context}
                     </p>
+                    {block.extended ? (
+                      <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
+                        {block.extended}
+                      </p>
+                    ) : null}
                     {block.url ? (
                       <a
                         href={block.url}

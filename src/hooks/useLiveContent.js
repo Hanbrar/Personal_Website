@@ -28,6 +28,7 @@ function normalizeContent(input) {
           date: item?.date || "",
           title: item?.title || "",
           context: item?.context || "",
+          extended: item?.extended || "",
           url: item?.url || ""
         }))
         .filter((item) => item.title)
@@ -53,10 +54,23 @@ function normalizeContent(input) {
     ? input.featuredProjects.map(normalizeProject).filter((item) => item.title && item.href)
     : []
 
+  const photos = Array.isArray(input.photos)
+    ? input.photos
+        .map((item, i) => ({
+          id: item?.id || `photo-${i}`,
+          filename: item?.filename || "",
+          caption: item?.caption || "",
+          description: item?.description || "",
+          date: item?.date || ""
+        }))
+        .filter((item) => item.filename)
+    : []
+
   return {
     blocks,
     blogs,
     featuredProjects,
+    photos,
     updatedAt: input.updatedAt || ""
   }
 }
@@ -68,10 +82,12 @@ function fallbackContent() {
       date: item.date || "",
       title: item.title || "",
       context: item.context || "",
+      extended: item.extended || "",
       url: item.url || ""
     })),
     blogs: [],
     featuredProjects: profileContent.featuredProjects.map(normalizeProject),
+    photos: [],
     updatedAt: ""
   }
 }

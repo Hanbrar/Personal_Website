@@ -41,6 +41,34 @@ export async function loadRepoJsonFile({ accessToken, path }) {
   }
 }
 
+export async function getRepoFileSha({ accessToken, path }) {
+  const { branch } = repoConfig()
+  const url = new URL(contentEndpoint(path))
+  url.searchParams.set("ref", branch)
+  const response = await fetch(url, { headers: ghHeaders(accessToken) })
+  if (response.status === 404) return null
+  if (!response.ok) {
+    const json = await response.json()
+    throw new Error(json.message || `Failed to check ${path}`)
+  }
+  const json = await response.json()
+  return json.sha || null
+}
+
+export async function saveRepoRawFile({ accessToken, path, base64Content, sha, message }) {
+  const { branch } = repoConfig()
+  const body = { message, content: base64Content, branch }
+  if (sha) body.sha = sha
+  const response = await fetch(contentEndpoint(path), {
+    method: "PUT",
+    headers: { ...ghHeaders(accessToken), "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  })
+  const json = await response.json()
+  if (!response.ok) throw new Error(json.message || `Failed to save ${path}`)
+  return { commitSha: json.commit?.sha || "", fileSha: json.content?.sha || "" }
+}
+
 export async function saveRepoJsonFile({ accessToken, path, contentObject, sha, message }) {
   const { branch } = repoConfig()
   const body = {
