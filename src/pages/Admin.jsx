@@ -35,12 +35,6 @@ export default function Admin({ darkMode, setDarkMode }) {
   // Stack/tags draft inputs (raw strings while user is typing)
   const [draftInputs, setDraftInputs] = useState({})
 
-  // Profile picture upload
-  const [profileFile, setProfileFile] = useState(null)
-  const [profilePreview, setProfilePreview] = useState(null)
-  const [profileUploading, setProfileUploading] = useState(false)
-  const [profileUploadMsg, setProfileUploadMsg] = useState("")
-
   // Photo file pickers keyed by photo id
   const [photoFiles, setPhotoFiles] = useState({})
   const [photoUploading, setPhotoUploading] = useState({})
@@ -296,46 +290,6 @@ export default function Admin({ darkMode, setDarkMode }) {
     }
   }
 
-  // Profile picture upload
-  function handleProfileFileChange(e) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setProfileFile(file)
-    setProfilePreview(URL.createObjectURL(file))
-    setProfileUploadMsg("")
-  }
-
-  async function handleProfileUpload() {
-    if (!profileFile) return
-    setProfileUploading(true)
-    setProfileUploadMsg("")
-    const reader = new FileReader()
-    reader.onload = async (e) => {
-      const base64 = e.target.result.split(",")[1]
-      try {
-        const res = await fetch("/api/admin/upload-file", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            path: "public/profile.jpg",
-            base64,
-            message: "Update profile picture"
-          })
-        })
-        const json = await res.json()
-        if (!res.ok) throw new Error(json.error || "Upload failed")
-        setProfileUploadMsg("Profile picture uploaded! It will be live after the next deployment.")
-        setProfileFile(null)
-      } catch (err) {
-        setProfileUploadMsg(err instanceof Error ? err.message : "Upload failed")
-      } finally {
-        setProfileUploading(false)
-      }
-    }
-    reader.readAsDataURL(profileFile)
-  }
-
   // Photo file handling
   function handlePhotoFileChange(photoId, e) {
     const file = e.target.files?.[0]
@@ -464,44 +418,6 @@ export default function Admin({ darkMode, setDarkMode }) {
           {errorMessage ? (
             <p className="mt-3 font-mono text-xs font-bold uppercase tracking-[0.14em] text-red-500">{errorMessage}</p>
           ) : null}
-        </article>
-
-        {/* Profile Picture */}
-        <article className="anime-card card-cyan rounded-[18px] p-5 md:p-6">
-          <h2 className="section-title mb-4 text-2xl md:text-3xl">Profile Picture</h2>
-          <p className="mb-4 text-sm" style={{ color: "rgb(var(--text-soft))" }}>
-            Pick a new profile picture from your computer. It replaces the current one.
-          </p>
-          <div className="flex flex-wrap items-start gap-5">
-            {profilePreview ? (
-              <img src={profilePreview} alt="Preview" className="h-32 w-32 rounded-lg object-cover" style={{ border: "1px solid rgb(var(--text) / 0.2)" }} />
-            ) : (
-              <img src="/profile.jpg" alt="Current profile" className="h-32 w-32 rounded-lg object-cover" style={{ border: "1px solid rgb(var(--text) / 0.2)" }} />
-            )}
-            <div className="flex flex-col gap-3">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfileFileChange}
-                className="text-sm"
-                style={{ color: "rgb(var(--text))" }}
-              />
-              <button
-                type="button"
-                onClick={handleProfileUpload}
-                className="btn-primary"
-                disabled={!profileFile || profileUploading}
-                style={{ width: "fit-content" }}
-              >
-                {profileUploading ? "Uploading..." : "Upload Profile Picture"}
-              </button>
-              {profileUploadMsg ? (
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.12em]" style={{ color: profileUploadMsg.includes("failed") || profileUploadMsg.includes("failed") ? "rgb(239 68 68)" : "rgb(34 197 94)" }}>
-                  {profileUploadMsg}
-                </p>
-              ) : null}
-            </div>
-          </div>
         </article>
 
         {/* Live Status + Blogs */}

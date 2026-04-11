@@ -160,33 +160,18 @@ function Home({ darkMode, setDarkMode }) {
           </div>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-2 md:gap-7">
-          <article id="about" className="anime-card card-lime flex flex-col justify-center rounded-[18px] p-6 md:p-8">
-            <p className="section-kicker mb-3">About me</p>
-            <h2 className="section-title">Who I am</h2>
-            <p className="mt-4 text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
-              {profileContent.about}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {profileContent.currentFocusAreas.map((area) => (
-                <span key={area} className="skill-chip">{area}</span>
-              ))}
-            </div>
-          </article>
-
-          <div className="flex flex-col items-center justify-center gap-4">
-            <div className="profile-frame w-full max-w-sm">
-              <img
-                src="/profile.jpg"
-                alt={`Portrait of ${profileContent.name}`}
-                className="h-[20rem] w-full object-cover md:h-[30rem]"
-              />
-            </div>
-            <span className="cyber-badge" style={{ color: "rgb(var(--text-soft))", borderColor: "rgb(var(--line-bold))" }}>
-              Product Design and Build
-            </span>
+        <article id="about" className="anime-card card-lime rounded-[18px] p-6 md:p-8">
+          <p className="section-kicker mb-3">About me</p>
+          <h2 className="section-title">Who I am</h2>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed md:text-lg" style={{ color: "rgb(var(--text-soft))" }}>
+            {profileContent.about}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {profileContent.currentFocusAreas.map((area) => (
+              <span key={area} className="skill-chip">{area}</span>
+            ))}
           </div>
-        </section>
+        </article>
 
         <section id="projects">
           <div className="mb-5">
