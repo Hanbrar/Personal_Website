@@ -1,6 +1,14 @@
 {
   "blocks": [
     {
+      "id": "status-80adfd40-458b-4ead-9511-9801c6cf01f7",
+      "date": "2026-04-11",
+      "title": "Back into the Game",
+      "context": "Update",
+      "extended": "I've been gone for a while, buried in the lab building a piano-playing robot that, honestly, felt pretty useless. 4am finishes, back at it by 11am, day after day. 16-hour stretches that destroyed any sense of time. That chapter is done.\nI'm back, and I'm putting everything into my own projects now.\nOn the Custom X For You feed idea, someone already built something in that space, so I checked it out. It's more of a feed blocker than what I'm going for. What I actually want is a feed readjuster, something that searches for content related to, say, Opus 4.6 videos, and automatically reshapes your For You page around it. Totally different thing. I tried their tool. Not it. Still building mine, releasing soon.\nThe broader point: social media search is embarrassingly underdeveloped. X just dropped Grokpedia, but that's not searching X feeds, it's just AI-generated Wikipedia. Not the same thing. X and Instagram have some of the best data and user bases of any platform out there, which makes it even stranger that neither has seriously invested in real search. Better indexing would be enormously valuable, for AI, for researchers, for everyone. I genuinely don't understand why they're leaving that on the table.\nI have a lot of projects I'll be working on. If any of them land, I'll be in SF in September. If not, back to school. One shot at this.\nDM me on X if my takes are wrong.  [Click link to view the product I was talking about called Boucer]",
+      "url": "https://imbue.com/product/bouncer/"
+    },
+    {
       "id": "status-652970e7-b6f3-4356-815b-172099c3c74e",
       "date": "2026-03-23",
       "title": "Custom X For You feed",
@@ -206,5 +214,5 @@
       "date": "2026-03-21"
     }
   ],
-  "updatedAt": "2026-03-23T19:54:00.257Z"
+  "updatedAt": "2026-04-11T19:16:15.503Z"
 }
