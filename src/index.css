@@ -15,12 +15,12 @@
 }
 
 .dark {
-  --bg:        6   6   20;
-  --surface:   12  12  32;
-  --surface-2: 18  18  44;
-  --text:      236 238 255;
-  --text-soft: 126 134 188;
-  --ink:       0   0   0;    /* used for borders + offset shadows in dark */
+  --bg:        8   7   12;
+  --surface:   15  14  24;
+  --surface-2: 23  21  36;
+  --text:      242 240 255;
+  --text-soft: 128 124 166;
+  --ink:       0   0   0;
 }
 
 /* Anime palette — identical in both modes */
@@ -40,11 +40,11 @@ body {
   color: rgb(var(--text));
   background-color: rgb(var(--bg));
   background-image:
-    radial-gradient(circle, rgb(var(--text) / 0.035) 1px, transparent 1px),
-    radial-gradient(ellipse at 15% 5%,  rgb(var(--cyan) / 0.13) 0%, transparent 46%),
-    radial-gradient(ellipse at 85% 5%,  rgb(var(--blue) / 0.09) 0%, transparent 42%),
-    radial-gradient(ellipse at 50% 98%, rgb(var(--teal) / 0.07) 0%, transparent 36%);
-  background-size: 22px 22px, 100% 100%, 100% 100%, 100% 100%;
+    radial-gradient(ellipse at 18% 0%,   rgb(var(--yellow) / 0.07) 0%, transparent 52%),
+    radial-gradient(ellipse at 84% 8%,   rgb(var(--blue)   / 0.06) 0%, transparent 46%),
+    radial-gradient(ellipse at 50% 100%, rgb(var(--teal)   / 0.05) 0%, transparent 40%),
+    radial-gradient(ellipse at 5%  70%,  rgb(var(--cyan)   / 0.04) 0%, transparent 35%);
+  background-size: 100% 100%;
 }
 
 /* ─── Anime card ──────────────────────────────────────── */
@@ -406,4 +406,136 @@ body {
   .live-dot {
     animation: none !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* 2026 Homepage Redesign                                   */
+/* ═══════════════════════════════════════════════════════ */
+
+/* ─── Hero typography ─────────────────────────────────── */
+.hero-name {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(3rem, 9.5vw, 8.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: rgb(var(--text));
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--text-soft));
+}
+
+.hero-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FFD84A;
+  flex-shrink: 0;
+  animation: live-pulse 2.5s ease-in-out infinite;
+}
+
+.hero-rule {
+  margin-top: 18px;
+  height: 2px;
+  max-width: 480px;
+  background: linear-gradient(to right, #FFD84A 0%, rgb(255 216 74 / 0.25) 55%, transparent 100%);
+}
+
+/* ─── Glassmorphism ───────────────────────────────────── */
+.glass-card {
+  background: rgb(var(--surface) / 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgb(var(--text) / 0.1);
+  border-radius: 20px;
+}
+
+/* ─── About text ──────────────────────────────────────── */
+.about-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+  font-weight: 400;
+  line-height: 1.72;
+  color: rgb(var(--text));
+  max-width: 66ch;
+}
+
+/* ─── Section title ───────────────────────────────────── */
+.section-title-2026 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: rgb(var(--text));
+}
+
+/* ─── Project card ────────────────────────────────────── */
+.project-card-2026 {
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--text) / 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+}
+
+.project-card-2026:hover {
+  border-color: rgb(255 216 74 / 0.55);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 44px rgb(255 216 74 / 0.07);
+}
+
+.project-number-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgb(var(--text-soft));
+  background: rgb(var(--text) / 0.07);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ─── Blog card ───────────────────────────────────────── */
+.blog-glass-card {
+  background: rgb(var(--surface) / 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgb(var(--text) / 0.1);
+  border-radius: 16px;
+  transition: border-color 0.18s ease, transform 0.15s ease;
+}
+
+.blog-glass-card:hover {
+  border-color: rgb(0 207 207 / 0.5);
+  transform: translateY(-2px);
+}
+
+/* ─── School project row ──────────────────────────────── */
+.school-project-row { transition: background 0.12s ease; }
+.school-project-row:hover { background: rgb(var(--text) / 0.025); }
+
+/* ─── Entrance animations ─────────────────────────────── */
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.anim-fade-rise {
+  opacity: 0;
+  animation: fade-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-rise { animation: none; opacity: 1; }
+  .hero-eyebrow-dot { animation: none; }
 }
