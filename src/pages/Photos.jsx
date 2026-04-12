@@ -31,7 +31,7 @@ export default function Photos({ darkMode, setDarkMode }) {
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
-            <Link to="/photos" className="nav-link hidden sm:inline">Photos</Link>
+            <Link to="/photos" className="nav-link">Photos</Link>
             <Link to="/admin" className="nav-link hidden sm:inline">Admin</Link>
             <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">Resume</a>
             <button
