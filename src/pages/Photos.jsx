@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useLiveContent } from "../hooks/useLiveContent"
 
 export default function Photos({ darkMode, setDarkMode }) {
-  const { content } = useLiveContent()
+  const { content, loading } = useLiveContent()
   const photos = content.photos || []
   const [expandedId, setExpandedId] = useState(null)
 
@@ -12,75 +12,101 @@ export default function Photos({ darkMode, setDarkMode }) {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden px-4 pb-24 pt-5 md:px-8 md:pt-7">
-      <div className="pointer-events-none fixed inset-0 -z-10 neo-grid opacity-90" />
+    <div className="relative min-h-screen overflow-x-hidden">
 
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-8">
-        <nav className="flex items-center justify-between">
+      {/* ─── Sticky frosted nav ──────────────────────────── */}
+      <nav
+        className="sticky top-0 z-50 px-6 md:px-10"
+        style={{
+          background: "rgb(var(--bg) / 0.88)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          borderBottom: "1px solid rgb(var(--text) / 0.07)",
+        }}
+      >
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between">
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "rgb(var(--text-soft))" }}>
+            HB · 2026
+          </span>
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/live" className="nav-link">Live</Link>
+            <Link to="/photos" className="nav-link">Photos</Link>
             <Link to="/admin" className="nav-link">Admin</Link>
+            <a href="/Hanryck_Brar_Resume.pdf" target="_blank" rel="noreferrer" className="nav-link">Resume</a>
+            <button
+              type="button"
+              onClick={() => setDarkMode(d => !d)}
+              className="btn-ghost"
+              style={{ fontSize: "11px", padding: "6px 13px", marginLeft: "6px" }}
+              aria-label="Toggle theme"
+            >
+              {darkMode ? "☀ Light" : "☽ Dark"}
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setDarkMode((d) => !d)}
-            className="btn-ghost"
-            style={{ fontSize: "12px", padding: "8px 16px" }}
-            aria-label="Toggle theme"
-          >
-            {darkMode ? "Use light" : "Use dark"}
-          </button>
-        </nav>
-
-        <div>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight md:text-5xl">Photos</h1>
-          <p className="mt-2 font-mono text-sm" style={{ color: "rgb(var(--text-soft))" }}>
-            A collection of photos.
-          </p>
         </div>
+      </nav>
 
-        {photos.length === 0 ? (
-          <article className="anime-card card-lime rounded-[14px] p-5">
-            <p className="text-sm" style={{ color: "rgb(var(--text-soft))" }}>
-              No photos yet. Add some from the Admin page.
+      <main className="mx-auto w-full max-w-7xl px-6 pb-36 md:px-10">
+
+        {/* ─── Header ──────────────────────────────────────── */}
+        <header className="anim-fade-rise pt-16 pb-10 md:pt-20 md:pb-14">
+          <p className="hero-eyebrow mb-5">
+            <span className="hero-eyebrow-dot" />
+            Visual archive
+          </p>
+          <h1 className="section-title-2026" style={{ fontSize: "clamp(2.2rem, 6vw, 5rem)", letterSpacing: "-0.03em", lineHeight: 0.95 }}>
+            Photos
+          </h1>
+          <div className="hero-rule mt-4" />
+        </header>
+
+        {/* ─── Grid / Empty state ──────────────────────────── */}
+        {loading ? (
+          <div className="flex items-center justify-center py-32">
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "rgb(var(--text-soft))" }}>
+              Loading…
             </p>
-          </article>
+          </div>
+        ) : photos.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "rgb(var(--text-soft))" }}>
+              Nothing here yet
+            </p>
+          </div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
             {photos.map((photo) => (
               <div key={photo.id} className="flex flex-col">
                 <div
-                  className="group relative cursor-pointer overflow-hidden rounded-[14px]"
+                  className="group relative cursor-pointer overflow-hidden rounded-2xl"
                   onClick={() => toggle(photo.id)}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => e.key === "Enter" && toggle(photo.id)}
                   aria-label={photo.caption || "View photo description"}
+                  style={{ border: "1px solid rgb(var(--text) / 0.1)" }}
                 >
                   <img
                     src={`/photos/${photo.filename}`}
                     alt={photo.caption || "Photo"}
-                    className="h-56 w-full object-cover transition-all duration-300 group-hover:grayscale"
+                    className="h-64 w-full object-cover transition-all duration-300 group-hover:grayscale"
                   />
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 flex items-end justify-center bg-black/50 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="absolute inset-0 flex items-end justify-center bg-black/55 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
                       Click for description
                     </span>
                   </div>
                 </div>
 
-                {/* Caption */}
                 {photo.caption ? (
-                  <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgb(var(--text-soft))" }}>
+                  <p className="mt-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgb(var(--text-soft))" }}>
                     {photo.caption}
                   </p>
                 ) : null}
 
-                {/* Expanded description */}
                 {expandedId === photo.id ? (
-                  <div className="mt-2 rounded-[10px] p-3" style={{ border: "1px solid rgb(var(--text) / 0.2)" }}>
+                  <div className="mt-2 rounded-xl p-4" style={{ background: "rgb(var(--surface-2))", border: "1px solid rgb(var(--text) / 0.1)" }}>
                     {photo.description ? (
                       <p className="text-sm leading-relaxed" style={{ color: "rgb(var(--text-soft))" }}>
                         {photo.description}
@@ -89,7 +115,7 @@ export default function Photos({ darkMode, setDarkMode }) {
                       <p className="text-sm italic" style={{ color: "rgb(var(--text-soft))" }}>No description.</p>
                     )}
                     {photo.date ? (
-                      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "#00A878" }}>
+                      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "#A3D900" }}>
                         {photo.date}
                       </p>
                     ) : null}
@@ -100,9 +126,6 @@ export default function Photos({ darkMode, setDarkMode }) {
           </div>
         )}
 
-        <div className="text-center">
-          <Link to="/" className="btn-ghost">Back to Home</Link>
-        </div>
       </main>
     </div>
   )
