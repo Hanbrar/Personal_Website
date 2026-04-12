@@ -41,7 +41,8 @@ export default function Photos({ darkMode, setDarkMode }) {
               style={{ fontSize: "11px", padding: "6px 13px", marginLeft: "6px" }}
               aria-label="Toggle theme"
             >
-              {darkMode ? "☀ Light" : "☽ Dark"}
+              <span className="hidden sm:inline">{darkMode ? "☀ Light" : "☽ Dark"}</span>
+              <span className="sm:hidden">{darkMode ? "☀" : "☽"}</span>
             </button>
           </div>
         </div>

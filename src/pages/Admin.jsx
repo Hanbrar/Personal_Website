@@ -65,7 +65,8 @@ function AdminNav({ darkMode, setDarkMode, username, onLogout }) {
             style={{ fontSize: "11px", padding: "6px 13px" }}
             aria-label="Toggle theme"
           >
-            {darkMode ? "☀ Light" : "☽ Dark"}
+            <span className="hidden sm:inline">{darkMode ? "☀ Light" : "☽ Dark"}</span>
+            <span className="sm:hidden">{darkMode ? "☀" : "☽"}</span>
           </button>
           {onLogout && (
             <button type="button" onClick={onLogout} className="btn-ghost" style={{ fontSize: "11px", padding: "6px 12px" }}>
