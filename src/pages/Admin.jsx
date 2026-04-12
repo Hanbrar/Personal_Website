@@ -50,7 +50,7 @@ function AdminNav({ darkMode, setDarkMode, username, onLogout }) {
         <div className="flex items-center gap-0.5 sm:gap-1">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/live" className="nav-link">Live</Link>
-          <Link to="/photos" className="nav-link">Photos</Link>
+          <Link to="/photos" className="nav-link hidden sm:inline">Photos</Link>
         </div>
         <div className="flex items-center gap-2">
           {username && (
