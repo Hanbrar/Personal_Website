@@ -207,6 +207,13 @@
   ],
   "photos": [
     {
+      "id": "photo-83635533-3626-46b2-9436-7f762b04e90f",
+      "filename": "photo-1775974238108.webp",
+      "caption": "\"And I been hustlin' all day, this-a-way, that-a-way\"",
+      "description": "Stanley Park, Vancouver",
+      "date": "2026-04-12"
+    },
+    {
       "id": "photo-52ad130d-1339-4925-9e0f-6955f7b9800a",
       "filename": "photo-1774294282453.jpeg",
       "caption": "One breath at a time.",
@@ -214,5 +221,5 @@
       "date": "2026-03-21"
     }
   ],
-  "updatedAt": "2026-04-11T19:16:15.503Z"
+  "updatedAt": "2026-04-12T06:12:24.919Z"
 }
