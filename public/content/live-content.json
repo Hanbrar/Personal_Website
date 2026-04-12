@@ -207,11 +207,11 @@
   ],
   "photos": [
     {
-      "id": "photo-83635533-3626-46b2-9436-7f762b04e90f",
-      "filename": "photo-1775974238108.webp",
+      "id": "photo-e13486ff-f9ab-494c-9486-f03c07d62cbf",
+      "filename": "photo-1775975443244.png",
       "caption": "\"And I been hustlin' all day, this-a-way, that-a-way\"",
       "description": "Stanley Park, Vancouver",
-      "date": "2026-04-12"
+      "date": "2026-04-09"
     },
     {
       "id": "photo-52ad130d-1339-4925-9e0f-6955f7b9800a",
@@ -221,5 +221,5 @@
       "date": "2026-03-21"
     }
   ],
-  "updatedAt": "2026-04-12T06:12:27.376Z"
+  "updatedAt": "2026-04-12T06:30:47.837Z"
 }
