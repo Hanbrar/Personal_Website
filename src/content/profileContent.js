@@ -34,7 +34,7 @@ export const profileContent = {
     {
       id: "linkedin",
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/hanryck-brar/",
+      href: "https://www.linkedin.com/in/hanryck-brar-589692239/",
       value: "Hanryck Brar"
     }
   ],
