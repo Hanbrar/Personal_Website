@@ -1,0 +1,133 @@
+:root {
+  --paper: #efebe2;
+  --ink: #17150f;
+  --accent: #b8381d;
+  --grain: 0.07;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14130f;
+    --ink: #ece7db;
+    --accent: #e0694b;
+    --grain: 0.05;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* paper grain, barely there */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+main {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding:
+    max(1.25rem, env(safe-area-inset-top))
+    max(clamp(1.25rem, 4.5vw, 4rem), env(safe-area-inset-right))
+    max(2rem, env(safe-area-inset-bottom))
+    max(clamp(1.25rem, 4.5vw, 4rem), env(safe-area-inset-left));
+}
+
+h1 {
+  margin: 0 0 clamp(1.75rem, 5vw, 3.5rem);
+  font-weight: 300;
+  font-size: clamp(4.5rem, 23.5vw, 23rem);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  /* the name is one word per line; keep the break even if the box is wide */
+}
+
+h1 span {
+  display: block;
+}
+
+.last {
+  /* nudged in, the way you'd set a signature, not centred */
+  margin-left: 0.62em;
+  font-style: normal;
+}
+
+.gh {
+  position: relative;
+  align-self: flex-start;
+  /* generous hit area without growing the visible mark */
+  padding: 0.6rem 0 0.9rem;
+  margin-left: 0.15rem;
+  color: var(--ink);
+  font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+/* underline drawn like a pen stroke: a little uneven, not a straight rule */
+.gh::after {
+  content: "";
+  position: absolute;
+  left: -0.04em;
+  right: 0.02em;
+  bottom: 0.45rem;
+  height: 0.32em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M1 6.2C22 3.4 41 7.6 72 5.1S131 6.8 199 3.9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M1 6.2C22 3.4 41 7.6 72 5.1S131 6.8 199 3.9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+
+.gh:hover {
+  color: var(--accent);
+}
+
+.gh:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0.35rem;
+  border-radius: 1px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh {
+    transition: none;
+  }
+}
